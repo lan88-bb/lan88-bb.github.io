@@ -36,7 +36,7 @@
         .t3 { margin-left: 5vw; font-size: 14vw; color: var(--red); }
         .hero .sub { margin-top: 2rem; font-family: 'Space Grotesk'; font-size: 1.5rem; border-top: 2px solid var(--ink); display: inline-block; padding-top: 1rem; }
 
-        /* --- 3. 摄影区 --- */
+        /* --- 3. 摄影横移区 --- */
         .h-section { height: 350vh; background: #000; }
         .h-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; }
         .h-label { position: absolute; top: 10vh; left: 5vw; color: var(--accent); font-family: 'Space Grotesk'; font-size: 2rem; }
@@ -44,13 +44,12 @@
         .photo-card { flex-shrink: 0; width: 45vw; height: 65vh; border: 1px solid rgba(255,255,255,0.2); }
         .photo-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- 4. PPT 区域 (合并了你的修改) --- */
+        /* --- 4. PPT 扇形展开区 --- */
         .ppt-section { 
-            height: 300vh; /* 增加滚动长度，创造图2的间距感 */
+            height: 300vh; 
             background: var(--bg); 
             position: relative; 
-            margin-top: -1px;
-            padding-bottom: 50vh; /* 底部大留白 */
+            padding-bottom: 50vh; /* 创造图2的间距 */
         }
         .ppt-sticky { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .ppt-title { font-family: 'Space Grotesk'; font-size: 3.5rem; margin-bottom: 5vh; }
@@ -66,8 +65,6 @@
             overflow: hidden;
             z-index: 1;
         }
-
-        /* 鼠标悬停逻辑：使用 JS 传过来的变量 --tx 和 --ty */
         .ppt-card:hover {
             z-index: 100 !important;
             transform: translateX(var(--tx)) translateY(var(--ty)) rotate(0deg) scale(1.1) !important;
@@ -76,18 +73,49 @@
         .ppt-card img { width: 100%; height: 80%; object-fit: cover; }
         .ppt-card .label { padding: 1rem; font-weight: 900; }
 
-        /* --- 5. 视频区文件夹 --- */
-        .video-section { padding: 15vh 5vw; background: var(--bg); }
-        .folder { border: 2px solid var(--ink); background: #fff; position: relative; padding: 50px 30px 30px 30px; }
+        /* --- 5. 视频扇形展开区 (图2同款效果) --- */
+        .video-section { 
+            height: 250vh; 
+            background: var(--bg); 
+            position: relative; 
+        }
+        .video-sticky { 
+            position: sticky; top: 0; height: 100vh; 
+            display: flex; justify-content: center; align-items: center; 
+        }
+        .folder {
+            border: 2px solid var(--ink);
+            background: #fff;
+            position: relative;
+            width: 90vw; height: 75vh;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 20px 20px 0px var(--ink);
+        }
+        /* 文件夹蓝色标签 */
         .folder::before {
             content: "PROJECT_VIDEO_REEL_2026.MOV";
             position: absolute; top: -2px; left: -2px;
             height: 40px; width: 320px; background: var(--ink); color: #fff;
             display: flex; align-items: center; padding-left: 20px; font-family: 'Space Grotesk'; font-size: 12px;
+            z-index: 10;
         }
-        .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .video-box { border: 1px solid var(--ink); background: #000; aspect-ratio: 16/9; position: relative; overflow: hidden; }
-        .video-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
+
+        .video-box {
+            position: absolute;
+            width: 42vw; aspect-ratio: 16/9;
+            border: 2px solid var(--ink);
+            background: #000;
+            transform-origin: bottom center;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        /* 视频卡片悬停效果 */
+        .video-box:hover {
+            z-index: 100 !important;
+            transform: translateX(var(--vx)) translateY(var(--vy)) rotate(0deg) scale(1.1) !important;
+        }
+        .video-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
         .video-box:hover img { opacity: 1; }
 
     </style>
@@ -130,17 +158,19 @@
         </div>
     </section>
 
-    <section class="video-section">
-        <div class="folder">
-            <h2 style="font-family: 'Space Grotesk'; font-size: 3rem; margin-bottom: 2rem;">EDITING REEL</h2>
-            <div class="video-grid">
-                <div class="video-box"><img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1000"></div>
-                <div class="video-box"><img src="https://images.unsplash.com/photo-1492691523567-61322558ddfd?w=1000"></div>
+    <section class="video-section" id="videoSec">
+        <div class="video-sticky">
+            <div class="folder">
+                <h2 style="position:absolute; top: 60px; left: 30px; font-family: 'Space Grotesk'; font-size: 3rem;">EDITING REEL</h2>
+                <div class="video-box" style="z-index: 3;"><img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1000"></div>
+                <div class="video-box" style="z-index: 2;"><img src="https://images.unsplash.com/photo-1492691523567-61322558ddfd?w=1000"></div>
+                <div class="video-box" style="z-index: 1;"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000"></div>
             </div>
         </div>
     </section>
 
     <script>
+        // 1. 光标跟随
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
@@ -148,7 +178,7 @@
         });
 
         window.addEventListener('scroll', () => {
-            // 摄影区横移
+            // 2. 摄影区横移
             const hSec = document.getElementById('hSec');
             const hTrack = document.getElementById('hTrack');
             const hRect = hSec.getBoundingClientRect();
@@ -157,23 +187,37 @@
                 hTrack.style.transform = `translateX(-${move * 70}%)`;
             }
 
-            // PPT 扇形展开逻辑
+            // 3. PPT 扇形展开逻辑
             const pptSec = document.getElementById('pptSec');
-            const cards = document.querySelectorAll('.ppt-card');
+            const pptCards = document.querySelectorAll('.ppt-card');
             const pRect = pptSec.getBoundingClientRect();
             const pProg = Math.min(Math.max(-pRect.top / (pptSec.offsetHeight - window.innerHeight), 0), 1);
 
-            cards.forEach((card, index) => {
+            pptCards.forEach((card, index) => {
                 const i = index - 2;
                 const rotate = i * 15 * pProg;
                 const x = i * 220 * pProg;
                 const y = Math.abs(i) * 50 * pProg;
-                
-                // 设置变量供 CSS Hover 使用
                 card.style.setProperty('--tx', `${x}px`);
                 card.style.setProperty('--ty', `${y}px`);
-                
                 card.style.transform = `translateX(${x}px) translateY(${y}px) rotate(${rotate}deg)`;
+            });
+
+            // 4. 视频区扇形展开逻辑 (图2同款)
+            const videoSec = document.getElementById('videoSec');
+            const videoBoxes = document.querySelectorAll('.video-box');
+            const vRect = videoSec.getBoundingClientRect();
+            const vProg = Math.min(Math.max(-vRect.top / (videoSec.offsetHeight - window.innerHeight), 0), 1);
+
+            videoBoxes.forEach((box, index) => {
+                const i = index - 1; // 调整中心点（这里假设有3张卡片）
+                const rotate = i * 20 * vProg;
+                const x = i * 280 * vProg;
+                const y = Math.abs(i) * 40 * vProg;
+                // 设置变量供 Hover 动效使用
+                box.style.setProperty('--vx', `${x}px`);
+                box.style.setProperty('--vy', `${y}px`);
+                box.style.transform = `translateX(${x}px) translateY(${y}px) rotate(${rotate}deg)`;
             });
         });
     </script>
