@@ -1,38 +1,81 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio | 陈钰方</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta charset="utf-8"/>
+    <title>Portfolio | 个人作品集</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 基础变量 --- */
         :root {
-            --bg-color: #080808;
-            --card-bg: #111111;
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --accent: #D2FF00;
-            --border: #222222;
+            --color--black: #080808;
+            --color--dark-green: #101400;
+            --color--white: #ffffff;
+            --color--lime: #d2ff00; /* Lando 标志性霓虹绿 */
+            --color--grey-1: #222;
+            --color--grey-2: #888;
+            --gap: 2rem;
         }
+
+        /* 基础样式复刻 */
+        html {
+            font-size: 16px;
+            background-color: var(--color--black);
+            color: var(--color--white);
+            font-family: 'Inter', sans-serif;
+            scrollbar-width: none; /* 隐藏滚动条 */
+        }
+        body::-webkit-scrollbar { display: none; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden; /* 防止横向溢出导致页面抖动 */
+        h1, h2, h3, .text-impact {
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: uppercase;
+            font-weight: 700;
         }
 
-        /* --- 核心：横向滚动视差逻辑 --- */
-        .horizontal-scroll-section {
-            height: 400vh; /* 滚动高度，决定滑动的时长 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--gap);
+        }
+
+        /* --- Header --- */
+        nav {
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--color--grey-1);
+        }
+        .nav-logo { font-size: 1.5rem; letter-spacing: -1px; }
+        .nav-logo span { color: var(--color--lime); }
+
+        /* --- Hero --- */
+        .hero {
+            padding: 10rem 0 5rem;
+        }
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+        }
+        .hero .accent { color: var(--color--lime); }
+
+        /* --- 1. 摄影作品：横向滚动视差 --- */
+        .section-label {
+            color: var(--color--lime);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .horizontal-section {
+            height: 300vh; /* 滑行深度 */
             position: relative;
         }
-
         .sticky-wrapper {
             position: sticky;
             top: 0;
@@ -41,138 +84,147 @@
             align-items: center;
             overflow: hidden;
         }
-
-        .horizontal-track {
+        .track {
             display: flex;
-            gap: 60px;
+            gap: 4rem;
             padding: 0 10vw;
             will-change: transform;
-            /* 绑定滚动进度：关键属性 */
-            animation: scroll-x linear forwards;
+            animation: scroll-move linear forwards;
             animation-timeline: view();
             animation-range: contain 0% contain 100%;
         }
-
-        @keyframes scroll-x {
-            from { transform: translateX(0); }
-            to { transform: translateX(-150%); } /* 根据图片数量调整这个值 */
+        @keyframes scroll-move {
+            from { transform: translateX(20vw); }
+            to { transform: translateX(-150%); }
         }
-
-        /* --- 摄影卡片样式 --- */
-        .photo-slide {
+        .photo-card {
             flex-shrink: 0;
-            width: 70vw;
-            height: 65vh;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            width: 60vw;
+            height: 70vh;
+            background: var(--color--grey-1);
             position: relative;
             overflow: hidden;
-            transition: border-color 0.3s;
         }
-
-        .photo-slide:hover {
-            border-color: var(--accent);
+        .photo-card img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%);
+            transition: 0.8s var(--cubic-default);
         }
+        .photo-card:hover img { filter: grayscale(0%); transform: scale(1.05); }
 
-        .photo-slide img {
+        /* --- 2. PPT作品：便当盒网格 --- */
+        .ppt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin: 5rem 0;
+        }
+        .ppt-item {
+            background: var(--color--dark-green);
+            padding: 2.5rem;
+            border: 1px solid var(--color--grey-1);
+            transition: 0.3s;
+        }
+        .ppt-item:hover { border-color: var(--color--lime); }
+        .ppt-tag {
+            font-size: 0.7rem;
+            border: 1px solid var(--color--lime);
+            color: var(--color--lime);
+            padding: 0.2rem 0.6rem;
+            margin-right: 0.5rem;
+        }
+        .ppt-title { font-size: 2rem; margin: 1.5rem 0; }
+
+        /* --- 3. 剪辑作品：宽屏预览 --- */
+        .video-section { margin: 10rem 0; }
+        .video-preview {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(40%);
-            transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+            aspect-ratio: 21/9;
+            background: #111;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            clip-path: ellipse(100% 100% at 50% 50%);
+            transition: clip-path 0.7s ease;
         }
-
-        .photo-slide:hover img {
-            filter: grayscale(0%);
-            transform: scale(1.05);
-        }
-
-        /* --- 其他 UI 元素 --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 60px; border-bottom: 1px solid var(--border); margin-bottom: 60px;
-        }
-
-        .logo { font-weight: 700; font-size: 1.5rem; letter-spacing: 0.1em; font-family: 'Space Grotesk'; }
-        .logo span { color: var(--accent); }
-
-        .intro h1 {
-            font-size: clamp(2.5rem, 8vw, 4rem);
-            font-family: 'Space Grotesk';
-            line-height: 1; margin-bottom: 20px; text-transform: uppercase;
-        }
-
-        .highlight { color: var(--accent); text-shadow: 0 0 20px rgba(210, 255, 0, 0.2); }
-
-        .section-label {
-            font-family: 'Space Grotesk';
-            font-size: 0.8rem;
-            color: var(--accent);
-            margin-bottom: 20px;
-            display: block;
-            text-transform: uppercase;
-        }
+        .video-preview:hover { clip-path: ellipse(95% 100% at 50% 50%); }
+        .video-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
 
         footer {
-            margin-top: 100px; padding: 40px 20px;
-            border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem;
+            padding: 5rem 0;
+            border-top: 1px solid var(--color--grey-1);
+            text-align: center;
+            color: var(--color--grey-2);
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <header>
-            <div class="logo">CY<span>FANG</span></div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); font-family: 'Space Grotesk';">PORTFOLIO / 2026</div>
-        </header>
+        <nav>
+            <div class="nav-logo">CREATIVE<span>.HUB</span></div>
+            <div class="text-regular">PORTFOLIO 2026</div>
+        </nav>
 
-        <section style="margin-bottom: 20vh;">
-            <div class="intro">
-                <p style="color: var(--accent); margin-bottom: 10px; font-family: 'Space Grotesk';">PHOTOGRAPHER & DESIGNER</p>
-                <h1>CAPTURING SPEED,<br>DESIGNING <span class="highlight">IMPACT.</span></h1>
-                <p style="max-width: 500px; color: var(--text-muted);">
-                    你好，我是陈钰方。受 Lando Norris 风格启发，这里是我的视觉实验场。
-                </p>
-            </div>
+        <section class="hero">
+            <span class="section-label">Available for work</span>
+            <h1>VISUAL<br><span class="accent">STORYTELLER</span></h1>
         </section>
     </div>
 
-    <section class="horizontal-scroll-section">
+    <div class="horizontal-section">
         <div class="sticky-wrapper">
-            <div style="position: absolute; top: 10vh; left: 5vw;">
-                <span class="section-label">Photography / 摄影作品展示</span>
-            </div>
-
-            <div class="horizontal-track">
-                <div class="photo-slide">
-                    <img src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=1600" alt="Work 1">
-                    <div style="position: absolute; bottom: 30px; left: 30px; font-family: 'Space Grotesk';">01. URBAN VELOCITY</div>
+            <div class="track">
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=1200" alt="Photo 1">
+                    <div style="position:absolute; bottom:2rem; left:2rem;">01 / STREET</div>
                 </div>
-
-                <div class="photo-slide">
-                    <img src="https://images.unsplash.com/photo-1552668693-d07c8e40ca15?q=80&w=1600" alt="Work 2">
-                    <div style="position: absolute; bottom: 30px; left: 30px; font-family: 'Space Grotesk';">02. NEON LIGHTS</div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1552668693-d07c8e40ca15?auto=format&fit=crop&w=1200" alt="Photo 2">
+                    <div style="position:absolute; bottom:2rem; left:2rem;">02 / RACING</div>
                 </div>
-
-                <div class="photo-slide">
-                    <img src="https://images.unsplash.com/photo-1469285994282-454ceb49e63c?q=80&w=1600" alt="Work 3">
-                    <div style="position: absolute; bottom: 30px; left: 30px; font-family: 'Space Grotesk';">03. TRACKSIDE EMOTION</div>
-                </div>
-
-                <div class="photo-slide">
-                    <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1600" alt="Work 4">
-                    <div style="position: absolute; bottom: 30px; left: 30px; font-family: 'Space Grotesk';">04. MECHANICAL ART</div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200" alt="Photo 3">
+                    <div style="position:absolute; bottom:2rem; left:2rem;">03 / MOTION</div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <div class="container">
+        <section style="margin-top: 10rem;">
+            <span class="section-label">Presentations / PPT设计</span>
+            <div class="ppt-grid">
+                <div class="ppt-item">
+                    <div>
+                        <span class="ppt-tag">KEYNOTE</span>
+                        <span class="ppt-tag">35 PAGES</span>
+                    </div>
+                    <h3 class="ppt-title">商业融资计划书</h3>
+                    <p style="color:var(--color--grey-2)">基于 F1 极简视觉语言的品牌提案</p>
+                </div>
+                <div class="ppt-item">
+                    <div>
+                        <span class="ppt-tag">LAYOUT</span>
+                        <span class="ppt-tag">12 PAGES</span>
+                    </div>
+                    <h3 class="ppt-title">年度视觉报告</h3>
+                    <p style="color:var(--color--grey-2)">动态数据可视化展示</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="video-section">
+            <span class="section-label">Video Editing / 剪辑作品</span>
+            <div class="video-preview">
+                <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1600" alt="Video">
+                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border:1px solid #fff; padding:1rem 2rem;">PLAY REEL</div>
+            </div>
+            <h2 style="font-size: 3rem;">2025 CINEMATIC REEL</h2>
+        </section>
+
         <footer>
-            <p>&copy; 2026 陈钰方. Inspired by LN4.</p>
+            <p>© 2026 YOUR NAME. DESIGN INSPIRED BY LANDO NORRIS OFF+BRAND.</p>
         </footer>
     </div>
 
