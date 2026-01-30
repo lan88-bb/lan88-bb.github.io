@@ -2,15 +2,14 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8"/>
-    <title>Portfolio | 陈钰方个人作品集</title>
+    <title>Portfolio | 陈钰方作品集</title>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 核心变量：复刻截图配色 --- */
         :root {
-            --bg-color: #1a1d17;      /* 截图中的深灰绿底色 */
+            --bg-color: #1a1d17;      /* 深灰绿底色 */
             --accent: #D2FF00;       /* Lando 霓虹绿 */
             --text-main: #ffffff;
             --text-muted: #888888;
@@ -24,9 +23,10 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
-            line-height: 1.5;
             overflow-x: hidden;
+            scrollbar-width: none;
         }
+        body::-webkit-scrollbar { display: none; }
 
         /* --- 导航栏 --- */
         nav {
@@ -36,195 +36,232 @@
             align-items: center;
             position: fixed;
             width: 100%;
-            z-index: 100;
+            z-index: 1000;
+            mix-blend-mode: difference;
         }
         .logo { font-family: var(--font-space); font-weight: 700; letter-spacing: -1px; }
         .logo span { color: var(--accent); }
-        .store-btn {
-            background: var(--accent);
-            color: #000;
-            padding: 0.5rem 1.2rem;
-            border-radius: 4px;
-            font-weight: 700;
-            text-decoration: none;
-            font-size: 0.8rem;
-        }
 
-        /* --- 模块 1：Hero 散落摄影区 --- */
+        /* --- 模块 1：散点摄影区 --- */
         .hero-scatter {
             position: relative;
             width: 100%;
-            height: 180vh; /* 足够长，容纳散落的元素 */
-            padding-top: 15vh;
+            height: 150vh; 
+            padding-top: 20vh;
         }
+        .scatter-item { position: absolute; transition: transform 0.3s ease; }
+        .scatter-item img { width: 100%; display: block; filter: grayscale(30%); transition: 0.5s; border: 1px solid var(--border); }
+        .scatter-item:hover img { filter: grayscale(0); transform: scale(1.05); border-color: var(--accent); }
+        
+        /* 这里的布局参数参考了你提供的截图 */
+        .p1 { width: 20vw; top: 10vh; left: 8vw; }
+        .p2 { width: 32vw; top: 30vh; left: 34vw; z-index: 2; }
+        .p3 { width: 18vw; top: 5vh; right: 10vw; }
+        .p4 { width: 22vw; top: 80vh; left: 12vw; }
+        .p5 { width: 18vw; top: 85vh; right: 15vw; }
 
-        .scatter-item {
-            position: absolute;
-            transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
-        }
+        .label { font-family: var(--font-space); font-size: 10px; color: var(--text-muted); margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px; }
 
-        .scatter-item img {
-            width: 100%;
-            display: block;
-            filter: grayscale(20%);
-            transition: 0.5s;
-        }
-        .scatter-item:hover img { filter: grayscale(0); transform: scale(1.02); }
-
-        /* 模拟截图中的精确位置 */
-        .p-left-top { width: 18vw; top: 5vh; left: 5vw; }
-        .p-center-main { width: 35vw; top: 35vh; left: 32vw; z-index: 2; }
-        .p-right-top { width: 15vw; top: 8vh; right: 8vw; filter: sepia(0.3); }
-        .p-left-bottom { width: 20vw; top: 60vh; left: 10vw; opacity: 0.7; }
-        .p-right-bottom { width: 16vw; top: 75vh; right: 12vw; }
-
-        /* 截图中的小标签装饰 */
-        .label {
-            font-family: var(--font-space);
-            font-size: 10px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            display: block;
-            text-transform: uppercase;
-        }
-
-        /* 截图中的中间金句排版 */
+        /* 金句排版 */
         .quote-box {
             position: absolute;
-            top: 10vh;
+            top: 12vh;
             left: 38vw;
-            max-width: 300px;
-            font-family: 'Times New Roman', serif;
+            max-width: 320px;
+            font-family: serif;
             font-style: italic;
-            color: #ccc;
-            line-height: 1.2;
-        }
-        .quote-box b { color: var(--text-main); font-family: 'Inter'; font-style: normal; }
-        .signature { width: 80px; margin-top: 15px; filter: invert(1); opacity: 0.5; }
-
-        /* --- 模块 2：PPT 作品区 (Bento Grid) --- */
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem; }
-        .section-title {
-            font-family: var(--font-space);
-            font-size: 3rem;
-            margin-bottom: 3rem;
-            border-left: 5px solid var(--accent);
-            padding-left: 1.5rem;
+            color: #bbb;
+            font-size: 1.2rem;
         }
 
-        .ppt-grid {
-            display: grid;
-            grid-template-columns: 2fr 1.2fr;
-            gap: 20px;
+        /* --- 模块 2：PPT 堆叠滚动区 (核心修改) --- */
+        .ppt-stack-section {
+            position: relative;
+            height: 400vh; /* 增加滚动长度，让切换更平滑 */
+            margin-top: 10vh;
         }
-        .ppt-card {
+        .section-header {
+            position: sticky;
+            top: 5vh;
+            text-align: center;
+            z-index: 10;
+        }
+        .section-title { font-family: var(--font-space); font-size: clamp(3rem, 10vw, 6rem); opacity: 0.1; text-transform: uppercase; }
+
+        .ppt-sticky-wrapper {
+            position: sticky;
+            top: 15vh;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .ppt-card-stack {
+            position: relative;
+            width: 70vw;
+            max-width: 1000px;
+            height: 100%;
+        }
+        .ppt-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: #242820;
             border: 1px solid var(--border);
-            padding: 40px;
-            position: relative;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
-            transition: 0.4s;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        .ppt-card:hover { border-color: var(--accent); }
-        .ppt-card h3 { font-size: 2rem; margin-top: 20px; font-family: var(--font-space); }
-        .tag {
-            background: rgba(210, 255, 0, 0.1);
-            color: var(--accent);
-            padding: 4px 10px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+        .ppt-slide img { width: 100%; height: 75%; object-fit: cover; }
+        .ppt-info { padding: 2rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .ppt-info h3 { font-family: var(--font-space); font-size: 1.8rem; }
+        .tag { color: var(--accent); border: 1px solid var(--accent); padding: 2px 8px; font-size: 10px; align-self: flex-start; margin-bottom: 10px; }
 
         /* --- 模块 3：剪辑作品区 --- */
-        .video-box {
+        .video-section { padding: 10vh 5vw; }
+        .video-container {
             width: 100%;
-            aspect-ratio: 16/9;
+            aspect-ratio: 21/9;
             background: #000;
-            margin: 2rem 0;
             position: relative;
+            overflow: hidden;
             clip-path: inset(0 0 0 0);
-            transition: 1s ease;
+            transition: clip-path 0.8s ease;
         }
-        .video-box:hover { clip-path: inset(2% 5% 2% 5%); }
-        .video-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+        .video-container:hover { clip-path: inset(2% 4% 2% 4%); }
+        .video-container img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
 
-        footer { text-align: center; padding: 5rem; color: var(--text-muted); font-size: 0.8rem; }
+        footer { padding: 5rem; text-align: center; color: var(--text-muted); font-size: 12px; letter-spacing: 2px; }
 
-        /* 移动端适配 */
-        @media (max-width: 768px) {
-            .hero-scatter { height: auto; display: flex; flex-direction: column; gap: 40px; padding: 100px 20px; }
-            .scatter-item { position: static; width: 100% !important; }
-            .quote-box { position: static; margin: 20px 0; }
-            .ppt-grid { grid-template-columns: 1fr; }
-        }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">CY<span>FANG</span></div>
-        <a href="#" class="store-btn">CONTACT ME</a>
+        <div class="logo">CREATIVE<span>.STUDIO</span></div>
+        <div style="font-size: 0.8rem; font-weight: 600;">WORKS 2026</div>
     </nav>
 
     <section class="hero-scatter">
         <div class="quote-box">
-            <p style="font-size: 1.4rem;">It doesn't matter <b>where</b> you start, it's <b>how</b> you progress from there.</p>
-            <img src="https://landonorris.com/images/lando-signature.svg" class="signature" alt="Signature">
+            "It doesn't matter <b>where</b> you start, it's <b>how</b> you progress from there."
         </div>
 
-        <div class="scatter-item p-left-top">
-            <span class="label">QATAR, 2024</span>
-            <img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?q=80&w=800" alt="Work 1">
+        <div class="scatter-item p1">
+            <span class="label">Project / Street 01</span>
+            <img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?auto=format&fit=crop&w=800">
         </div>
-
-        <div class="scatter-item p-center-main">
-            <span class="label">MIAMI GP, 2024</span>
-            <img src="https://images.unsplash.com/photo-1552668693-d07c8e40ca15?q=80&w=1200" alt="Work 2">
+        <div class="scatter-item p2">
+            <span class="label">Main Focus / Miami</span>
+            <img src="https://images.unsplash.com/photo-1552668693-d07c8e40ca15?auto=format&fit=crop&w=1200">
         </div>
-
-        <div class="scatter-item p-right-top">
-            <span class="label">MONACO, 2023</span>
-            <img src="https://images.unsplash.com/photo-1517672651691-24622a91b550?q=80&w=800" alt="Work 3">
+        <div class="scatter-item p3">
+            <span class="label">Monaco / 2023</span>
+            <img src="https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&w=800">
         </div>
-
-        <div class="scatter-item p-left-bottom">
-            <span class="label">FIA PRIZE GIVING, 2024</span>
-            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=800" alt="Work 4">
+        <div class="scatter-item p4">
+            <span class="label">Portrait / Night</span>
+            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800">
         </div>
-
-        <div class="scatter-item p-right-bottom">
-            <span class="label">BRITAIN, 2025</span>
-            <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=800" alt="Work 5">
+        <div class="scatter-item p5">
+            <span class="label">Details / Race</span>
+            <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800">
         </div>
     </section>
 
-    <div class="section-container">
-        <h2 class="section-title">DECK DESIGN / PPT</h2>
-        <div class="ppt-grid">
-            <div class="ppt-card">
-                <span class="tag">LAYOUT</span>
-                <h3>2025 品牌视觉提案</h3>
-                <p style="color:var(--text-muted); margin-top:10px;">基于极简主义的排版实验</p>
-            </div>
-            <div class="ppt-card" style="background:var(--accent); color:#000;">
-                <span class="tag" style="background:rgba(0,0,0,0.1); color:#000;">HOT</span>
-                <h3>商业融资计划书</h3>
-                <p style="opacity:0.7; margin-top:10px;">Data Visualization</p>
+    <section class="ppt-stack-section">
+        <div class="section-header">
+            <h2 class="section-title">Presentation Decks</h2>
+        </div>
+        
+        <div class="ppt-sticky-wrapper">
+            <div class="ppt-card-stack">
+                <div class="ppt-slide" style="z-index: 1;">
+                    <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=1200">
+                    <div class="ppt-info">
+                        <span class="tag">03 / ANALYTICS</span>
+                        <h3>年度数据可视化报告</h3>
+                    </div>
+                </div>
+                <div class="ppt-slide" style="z-index: 2;">
+                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200">
+                    <div class="ppt-info">
+                        <span class="tag">02 / BRANDING</span>
+                        <h3>品牌重塑策略提案</h3>
+                    </div>
+                </div>
+                <div class="ppt-slide" style="z-index: 3;">
+                    <img src="https://images.unsplash.com/photo-1512448811101-680eb9265911?auto=format&fit=crop&w=1200">
+                    <div class="ppt-info">
+                        <span class="tag">01 / CONCEPT</span>
+                        <h3>F1 视觉语言研究</h3>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="section-container">
-        <h2 class="section-title">VIDEO EDITING / 剪辑</h2>
-        <div class="video-box">
-            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1600" alt="Video Reel">
-            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:var(--font-space); font-size:2rem; border-bottom:2px solid var(--accent);">PLAY REEL</div>
+    <section class="video-section">
+        <div class="section-header" style="position:static; margin-bottom: 5vh;">
+            <h2 class="section-title" style="opacity:1; font-size: 3rem;">Editing Reel</h2>
         </div>
-    </div>
+        <div class="video-container">
+            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1600">
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border:1px solid var(--accent); padding: 1rem 3rem; color: var(--accent); font-weight: bold; cursor: pointer;">PLAY VIDEO</div>
+        </div>
+    </section>
 
     <footer>
-        <p>© 2026 陈钰方 PORTFOLIO. INSPIRED BY LN4.</p>
+        <p>DESIGNED BY YOUR NAME © 2026. INSPIRED BY OFF+BRAND STUDIO.</p>
     </footer>
 
+    <script>
+        // PPT 滚动抽离逻辑
+        window.addEventListener('scroll', () => {
+            const stackSection = document.querySelector('.ppt-stack-section');
+            const slides = document.querySelectorAll('.ppt-slide');
+            const rect = stackSection.getBoundingClientRect();
+            
+            // 计算当前章节的滚动进度 (0 到 1)
+            const sectionHeight = stackSection.offsetHeight;
+            const progress = Math.min(Math.max(-rect.top / (sectionHeight - window.innerHeight), 0), 1);
+            
+            // 我们有3张卡片，每张占用约 0.33 的滚动区间
+            const totalSlides = slides.length;
+            
+            slides.forEach((slide, index) => {
+                // index 为 0 是最底层，2 是最顶层
+                // 我们要让最顶层 (index 2) 先飞走
+                const reverseIndex = totalSlides - 1 - index; 
+                const start = reverseIndex / totalSlides;
+                const end = (reverseIndex + 1) / totalSlides;
+                
+                if (progress > start) {
+                    const slideProgress = (progress - start) * totalSlides;
+                    // 向上方和左侧滑出
+                    slide.style.transform = `translateY(-${slideProgress * 120}%) rotate(-${slideProgress * 5}deg)`;
+                    slide.style.opacity = 1 - (slideProgress * 0.5);
+                } else {
+                    slide.style.transform = `translateY(0) rotate(0)`;
+                    slide.style.opacity = 1;
+                }
+            });
+        });
+
+        // 摄影散点区微视差效果
+        window.addEventListener('scroll', () => {
+            const items = document.querySelectorAll('.scatter-item');
+            const speed = [0.1, -0.15, 0.05, -0.1, 0.12];
+            items.forEach((item, i) => {
+                const yPos = window.pageYOffset * speed[i];
+                item.style.transform = `translateY(${yPos}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
 </body>
 </html>
