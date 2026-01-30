@@ -2,266 +2,262 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8"/>
-    <title>Portfolio | 陈钰方作品集</title>
+    <title>MY PROFILE | Portfolio</title>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #1a1d17;      /* 深灰绿底色 */
-            --accent: #D2FF00;       /* Lando 霓虹绿 */
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --border: rgba(255, 255, 255, 0.1);
-            --font-space: 'Space Grotesk', sans-serif;
+            --bg: #f0ede5;          /* 复古纸张底色 */
+            --ink: #1a4da3;         /* 印染蓝 */
+            --red: #7a1f1f;         /* 装饰红 */
+            --accent: #D2FF00;      /* 霓虹绿点缀 */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            scrollbar-width: none;
-        }
-        body::-webkit-scrollbar { display: none; }
-
-        /* --- 导航栏 --- */
-        nav {
-            padding: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* --- 1. 全局固定元素 --- */
+        .fixed-header {
             position: fixed;
-            width: 100%;
+            top: 2rem;
+            left: 2rem;
             z-index: 1000;
+            font-family: 'Space Grotesk';
+            font-weight: 700;
             mix-blend-mode: difference;
-        }
-        .logo { font-family: var(--font-space); font-weight: 700; letter-spacing: -1px; }
-        .logo span { color: var(--accent); }
-
-        /* --- 模块 1：散点摄影区 --- */
-        .hero-scatter {
-            position: relative;
-            width: 100%;
-            height: 150vh; 
-            padding-top: 20vh;
-        }
-        .scatter-item { position: absolute; transition: transform 0.3s ease; }
-        .scatter-item img { width: 100%; display: block; filter: grayscale(30%); transition: 0.5s; border: 1px solid var(--border); }
-        .scatter-item:hover img { filter: grayscale(0); transform: scale(1.05); border-color: var(--accent); }
-        
-        /* 这里的布局参数参考了你提供的截图 */
-        .p1 { width: 20vw; top: 10vh; left: 8vw; }
-        .p2 { width: 32vw; top: 30vh; left: 34vw; z-index: 2; }
-        .p3 { width: 18vw; top: 5vh; right: 10vw; }
-        .p4 { width: 22vw; top: 80vh; left: 12vw; }
-        .p5 { width: 18vw; top: 85vh; right: 15vw; }
-
-        .label { font-family: var(--font-space); font-size: 10px; color: var(--text-muted); margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* 金句排版 */
-        .quote-box {
-            position: absolute;
-            top: 12vh;
-            left: 38vw;
-            max-width: 320px;
-            font-family: serif;
-            font-style: italic;
-            color: #bbb;
-            font-size: 1.2rem;
+            color: white; /* 配合 difference 模式 */
         }
 
-        /* --- 模块 2：PPT 堆叠滚动区 (核心修改) --- */
-        .ppt-stack-section {
-            position: relative;
-            height: 400vh; /* 增加滚动长度，让切换更平滑 */
-            margin-top: 10vh;
-        }
-        .section-header {
-            position: sticky;
-            top: 5vh;
-            text-align: center;
-            z-index: 10;
-        }
-        .section-title { font-family: var(--font-space); font-size: clamp(3rem, 10vw, 6rem); opacity: 0.1; text-transform: uppercase; }
-
-        .ppt-sticky-wrapper {
-            position: sticky;
-            top: 15vh;
-            height: 70vh;
+        /* --- 2. Hero 标题区 --- */
+        .hero {
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        .ppt-card-stack {
-            position: relative;
-            width: 70vw;
-            max-width: 1000px;
-            height: 100%;
-        }
-        .ppt-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #242820;
-            border: 1px solid var(--border);
-            display: flex;
             flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        .ppt-slide img { width: 100%; height: 75%; object-fit: cover; }
-        .ppt-info { padding: 2rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
-        .ppt-info h3 { font-family: var(--font-space); font-size: 1.8rem; }
-        .tag { color: var(--accent); border: 1px solid var(--accent); padding: 2px 8px; font-size: 10px; align-self: flex-start; margin-bottom: 10px; }
+        .hero h1 { font-size: 15vw; line-height: 0.8; font-weight: 900; text-transform: uppercase; }
 
-        /* --- 模块 3：剪辑作品区 --- */
-        .video-section { padding: 10vh 5vw; }
-        .video-container {
-            width: 100%;
-            aspect-ratio: 21/9;
-            background: #000;
+        /* --- 3. 横向摄影作品区 (如图 1) --- */
+        .horizontal-section {
+            height: 400vh; /* 滚动长度 */
             position: relative;
-            overflow: hidden;
-            clip-path: inset(0 0 0 0);
-            transition: clip-path 0.8s ease;
         }
-        .video-container:hover { clip-path: inset(2% 4% 2% 4%); }
-        .video-container img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+        .horizontal-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            background: #1a1d17; /* 切换为暗色背景突出摄影 */
+            color: white;
+        }
+        .nav-label {
+            position: absolute;
+            top: 10vh;
+            left: 5vw;
+            font-size: 2rem;
+            font-family: 'Space Grotesk';
+            border-bottom: 2px solid var(--accent);
+        }
+        .photo-track {
+            position: absolute;
+            top: 25vh;
+            left: 0;
+            display: flex;
+            padding: 0 10vw;
+            gap: 10vw;
+            transition: transform 0.1s linear;
+        }
+        .photo-card {
+            flex-shrink: 0;
+            width: 30vw;
+            height: 50vh;
+            position: relative;
+        }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; border: 1px solid rgba(255,255,255,0.2); }
+        .photo-card span { display: block; margin-top: 1rem; font-size: 0.8rem; opacity: 0.6; }
 
-        footer { padding: 5rem; text-align: center; color: var(--text-muted); font-size: 12px; letter-spacing: 2px; }
+        /* --- 4. PPT 塔罗牌堆叠区 (如图 2) --- */
+        .ppt-tarot-section {
+            height: 200vh;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .tarot-container {
+            position: sticky;
+            top: 15vh;
+            width: 100%;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 5vh;
+        }
+        .tarot-card {
+            position: absolute;
+            width: 250px;
+            height: 380px;
+            background: white;
+            border: 2px solid var(--ink);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform-origin: bottom center;
+            transition: transform 0.5s ease, z-index 0.1s;
+            overflow: hidden;
+        }
+        .tarot-card img { width: 100%; height: 75%; object-fit: cover; }
+        .tarot-card .info { padding: 15px; font-weight: 900; }
+
+        /* --- 5. 视频区 (如图 3 文件夹感) --- */
+        .video-folder-section {
+            padding: 10vh 5vw;
+            background: var(--bg);
+        }
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 40px;
+        }
+        .video-item {
+            background: #fff;
+            border: 2px solid var(--ink);
+            position: relative;
+            padding-top: 30px; /* 模拟文件夹页签 */
+        }
+        .video-item::before {
+            content: "VIDEO_REEL_01.MP4";
+            position: absolute;
+            top: 0; left: 0; width: 60%; height: 30px;
+            background: var(--ink);
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+        }
+        .video-preview {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            overflow: hidden;
+        }
+        .video-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; }
+        .video-item:hover img { opacity: 1; transform: scale(1.05); }
 
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">CREATIVE<span>.STUDIO</span></div>
-        <div style="font-size: 0.8rem; font-weight: 600;">WORKS 2026</div>
-    </nav>
+    <div class="fixed-header">MY PROFILE</div>
 
-    <section class="hero-scatter">
-        <div class="quote-box">
-            "It doesn't matter <b>where</b> you start, it's <b>how</b> you progress from there."
-        </div>
-
-        <div class="scatter-item p1">
-            <span class="label">Project / Street 01</span>
-            <img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?auto=format&fit=crop&w=800">
-        </div>
-        <div class="scatter-item p2">
-            <span class="label">Main Focus / Miami</span>
-            <img src="https://images.unsplash.com/photo-1552668693-d07c8e40ca15?auto=format&fit=crop&w=1200">
-        </div>
-        <div class="scatter-item p3">
-            <span class="label">Monaco / 2023</span>
-            <img src="https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&w=800">
-        </div>
-        <div class="scatter-item p4">
-            <span class="label">Portrait / Night</span>
-            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800">
-        </div>
-        <div class="scatter-item p5">
-            <span class="label">Details / Race</span>
-            <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800">
-        </div>
+    <section class="hero">
+        <h1>PORT</h1>
+        <h1 style="color: transparent; -webkit-text-stroke: 2px var(--ink);">FOLIO</h1>
     </section>
 
-    <section class="ppt-stack-section">
-        <div class="section-header">
-            <h2 class="section-title">Presentation Decks</h2>
-        </div>
-        
-        <div class="ppt-sticky-wrapper">
-            <div class="ppt-card-stack">
-                <div class="ppt-slide" style="z-index: 1;">
-                    <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=1200">
-                    <div class="ppt-info">
-                        <span class="tag">03 / ANALYTICS</span>
-                        <h3>年度数据可视化报告</h3>
-                    </div>
+    <section class="horizontal-section" id="horizontal">
+        <div class="horizontal-sticky">
+            <div class="nav-label">PHOTOGRAPHIC WORKS</div>
+            <div class="photo-track" id="track">
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800">
+                    <span>01 / ICELAND, 2024</span>
                 </div>
-                <div class="ppt-slide" style="z-index: 2;">
-                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200">
-                    <div class="ppt-info">
-                        <span class="tag">02 / BRANDING</span>
-                        <h3>品牌重塑策略提案</h3>
-                    </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1511871893393-82e9c16b81e3?w=800">
+                    <span>02 / TOKYO, 2024</span>
                 </div>
-                <div class="ppt-slide" style="z-index: 3;">
-                    <img src="https://images.unsplash.com/photo-1512448811101-680eb9265911?auto=format&fit=crop&w=1200">
-                    <div class="ppt-info">
-                        <span class="tag">01 / CONCEPT</span>
-                        <h3>F1 视觉语言研究</h3>
-                    </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=800">
+                    <span>03 / PARIS, 2024</span>
+                </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800">
+                    <span>04 / ALPS, 2024</span>
+                </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800">
+                    <span>05 / SHORE, 2024</span>
+                </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800">
+                    <span>06 / FOREST, 2024</span>
+                </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800">
+                    <span>07 / PEAK, 2024</span>
+                </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1500622764614-be3c17a4aefc?w=800">
+                    <span>08 / VALLEY, 2024</span>
+                </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800">
+                    <span>09 / NATURE, 2024</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="video-section">
-        <div class="section-header" style="position:static; margin-bottom: 5vh;">
-            <h2 class="section-title" style="opacity:1; font-size: 3rem;">Editing Reel</h2>
-        </div>
-        <div class="video-container">
-            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1600">
-            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border:1px solid var(--accent); padding: 1rem 3rem; color: var(--accent); font-weight: bold; cursor: pointer;">PLAY VIDEO</div>
+    <section class="ppt-tarot-section">
+        <div class="tarot-container">
+            <div class="tarot-card" style="--i:1"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500"><div class="info">DECK 01</div></div>
+            <div class="tarot-card" style="--i:2"><img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=500"><div class="info">DECK 02</div></div>
+            <div class="tarot-card" style="--i:3"><img src="https://images.unsplash.com/photo-1512448811101-680eb9265911?w=500"><div class="info">DECK 03</div></div>
+            <div class="tarot-card" style="--i:4"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500"><div class="info">DECK 04</div></div>
+            <div class="tarot-card" style="--i:5"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500"><div class="info">DECK 05</div></div>
         </div>
     </section>
 
-    <footer>
-        <p>DESIGNED BY YOUR NAME © 2026. INSPIRED BY OFF+BRAND STUDIO.</p>
-    </footer>
+    <section class="video-folder-section">
+        <h2 style="margin-bottom: 5vh; font-family: 'Space Grotesk'; font-size: 3rem;">EDITING REEL</h2>
+        <div class="folder-grid">
+            <div class="video-item">
+                <div class="video-preview">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800">
+                </div>
+            </div>
+            <div class="video-item">
+                <div class="video-preview">
+                    <img src="https://images.unsplash.com/photo-1492691523567-61322558ddfd?w=800">
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
-        // PPT 滚动抽离逻辑
         window.addEventListener('scroll', () => {
-            const stackSection = document.querySelector('.ppt-stack-section');
-            const slides = document.querySelectorAll('.ppt-slide');
-            const rect = stackSection.getBoundingClientRect();
-            
-            // 计算当前章节的滚动进度 (0 到 1)
-            const sectionHeight = stackSection.offsetHeight;
-            const progress = Math.min(Math.max(-rect.top / (sectionHeight - window.innerHeight), 0), 1);
-            
-            // 我们有3张卡片，每张占用约 0.33 的滚动区间
-            const totalSlides = slides.length;
-            
-            slides.forEach((slide, index) => {
-                // index 为 0 是最底层，2 是最顶层
-                // 我们要让最顶层 (index 2) 先飞走
-                const reverseIndex = totalSlides - 1 - index; 
-                const start = reverseIndex / totalSlides;
-                const end = (reverseIndex + 1) / totalSlides;
-                
-                if (progress > start) {
-                    const slideProgress = (progress - start) * totalSlides;
-                    // 向上方和左侧滑出
-                    slide.style.transform = `translateY(-${slideProgress * 120}%) rotate(-${slideProgress * 5}deg)`;
-                    slide.style.opacity = 1 - (slideProgress * 0.5);
-                } else {
-                    slide.style.transform = `translateY(0) rotate(0)`;
-                    slide.style.opacity = 1;
-                }
-            });
-        });
+            const scrollY = window.pageYOffset;
 
-        // 摄影散点区微视差效果
-        window.addEventListener('scroll', () => {
-            const items = document.querySelectorAll('.scatter-item');
-            const speed = [0.1, -0.15, 0.05, -0.1, 0.12];
-            items.forEach((item, i) => {
-                const yPos = window.pageYOffset * speed[i];
-                item.style.transform = `translateY(${yPos}px)`;
+            // 1. 横向滚动控制
+            const horizontalSection = document.getElementById('horizontal');
+            const track = document.getElementById('track');
+            const hRect = horizontalSection.getBoundingClientRect();
+            
+            if (hRect.top < 0 && hRect.bottom > window.innerHeight) {
+                const movePercent = (-hRect.top / (horizontalSection.offsetHeight - window.innerHeight)) * 100;
+                track.style.transform = `translateX(-${movePercent * 0.75}%)`; // 0.75 调节滑动速度
+            }
+
+            // 2. 塔罗牌扇形展开控制 (如图 2)
+            const tarotSection = document.querySelector('.ppt-tarot-section');
+            const cards = document.querySelectorAll('.tarot-card');
+            const tRect = tarotSection.getBoundingClientRect();
+            const tProgress = Math.min(Math.max(-tRect.top / (tarotSection.offsetHeight - window.innerHeight), 0), 1);
+
+            cards.forEach((card, index) => {
+                const i = index - 2; // 中心点偏移
+                const rotate = i * 15 * tProgress; // 展开角度
+                const translateX = i * 100 * tProgress; // 展开宽度
+                const translateY = Math.abs(i) * 20 * tProgress; // 弧度
+                card.style.transform = `translateX(${translateX}px) translateY(${translateY}px) rotate(${rotate}deg)`;
             });
         });
     </script>
-</body>
-</html>
 </body>
 </html>
