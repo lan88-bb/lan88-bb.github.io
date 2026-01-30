@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio | Lando Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 核心风格设置 (Lando Style) --- */
+        :root {
+            --bg-color: #080808;       /* 深黑背景 */
+            --card-bg: #111111;        /* 卡片背景 */
+            --text-main: #ffffff;      /* 主要文字 */
+            --text-muted: #888888;     /* 次要文字 */
+            --accent: #D2FF00;         /* Lando 霓虹绿 */
+            --border: #222222;         /* 边框颜色 */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: uppercase; /* 大写更像赛车风格 */
+            letter-spacing: -0.02em;
+        }
+
+        /* --- 布局容器 --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- 头部 (Header) --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 60px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 60px;
+        }
+
+        .logo { font-weight: 700; font-size: 1.5rem; letter-spacing: 0.1em; }
+        .logo span { color: var(--accent); } /* 名字里的点缀色 */
+
+        .intro h1 {
+            font-size: 4rem;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        
+        /* 霓虹文字效果 */
+        .highlight {
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(210, 255, 0, 0.2); 
+        }
+
+        /* --- 便当盒网格布局 (Bento Grid) --- */
+        .grid-section { margin-bottom: 100px; }
+        
+        .section-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::before {
+            content: ''; width: 10px; height: 10px; background: var(--accent); display: block;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* --- 作品卡片设计 --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 鼠标悬停时的 Lando 风格动效 */
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 250px;
+            background-color: #222;
+            object-fit: cover;
+            margin-bottom: 20px;
+            filter: grayscale(100%); /* 默认黑白 */
+            transition: 0.4s;
+        }
+
+        .card:hover .card-img {
+            filter: grayscale(0%); /* 悬停变彩色 */
+        }
+
+        .card-meta {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .card p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* --- PPT 列表样式 (数据板风格) --- */
+        .ppt-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ppt-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            transition: 0.3s;
+        }
+
+        .ppt-item:hover {
+            border-color: var(--accent);
+            background: #1a1a1a;
+        }
+
+        .tag {
+            background: rgba(210, 255, 0, 0.1);
+            color: var(--accent);
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border-radius: 4px;
+        }
+
+        /* --- 移动端适配 --- */
+        @media (max-width: 768px) {
+            .intro h1 { font-size: 2.5rem; }
+            .ppt-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo">YOUR<span>NAME</span></div>
+            <div style="font-size: 0.9rem; color: var(--text-muted);">2025 PORTFOLIO</div>
+        </header>
+
+        <section style="margin-bottom: 120px;">
+            <div class="intro">
+                <p style="color: var(--accent); margin-bottom: 10px;">PHOTOGRAPHER & DESIGNER</p>
+                <h1>CAPTURING SPEED,<br>DESIGNING <span class="highlight">IMPACT.</span></h1>
+                <p style="max-width: 500px; color: var(--text-muted);">
+                    这是一个基于 Lando Norris 2025 官网风格构建的个人作品集。
+                    这里展示我的摄影作品与 PPT 设计案例。
+                </p>
+            </div>
+        </section>
+
+        <section class="grid-section">
+            <div class="section-title">PHOTOGRAPHY / 摄影作品</div>
+            <div class="gallery-grid">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Photo 1">
+                    <div class="card-meta">ISO 400 | SHANGHAI</div>
+                    <h3>Urban Night</h3>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1517672651691-24622a91b550?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Photo 2">
+                    <div class="card-meta">ISO 100 | STUDIO</div>
+                    <h3>Neon Portrait</h3>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Photo 3">
+                    <div class="card-meta">f/2.8 | TRACK</div>
+                    <h3>Speed Motion</h3>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid-section">
+            <div class="section-title">PRESENTATIONS / 幻灯片设计</div>
+            <div class="ppt-list">
+                <div class="ppt-item">
+                    <div>
+                        <h3 style="font-size: 1.2rem;">Tech Summit Keynote</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">2025 年度科技峰会主旨演讲</p>
+                    </div>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <span style="color: #666; font-size: 0.8rem;">35 PAGES</span>
+                        <span class="tag">CYBERPUNK</span>
+                    </div>
+                </div>
+                <div class="ppt-item">
+                    <div>
+                        <h3 style="font-size: 1.2rem;">Quarterly Report</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">季度财务报告设计</p>
+                    </div>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <span style="color: #666; font-size: 0.8rem;">12 PAGES</span>
+                        <span class="tag">MINIMAL</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer style="border-top: 1px solid var(--border); padding-top: 40px; color: var(--text-muted); font-size: 0.8rem;">
+            <p>&copy; 2025 YOUR NAME. INSPIRED BY LANDO NORRIS.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
