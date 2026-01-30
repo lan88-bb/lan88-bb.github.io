@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8"/>
-    <title>MY PROFILE | Portfolio 2026</title>
+    <title>MY PROFILE | 陈钰方作品集</title>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     
@@ -14,12 +14,11 @@
             --accent: #D2FF00;
         }
 
-        /* --- 1. 强制自定义星星光标 --- */
+        /* --- 1. 光标逻辑 --- */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
         .cursor-star {
             position: fixed;
-            width: 30px;
-            height: 30px;
+            width: 30px; height: 30px;
             background: var(--red);
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             pointer-events: none;
@@ -29,88 +28,66 @@
 
         body { background-color: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* --- 2. 左上角固定文字 --- */
-        .fixed-header {
-            position: fixed;
-            top: 2rem;
-            left: 2rem;
-            z-index: 10000;
-            font-family: 'Space Grotesk';
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: 2px;
-            mix-blend-mode: difference;
-            color: #fff;
-        }
-
-        /* --- 3. 错落有致的首页标题 (参考截图样式) --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 10vw;
-            position: relative;
-        }
-        .hero .title-wrap { position: relative; }
+        /* --- 2. 首页错落标题 --- */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-left: 10vw; }
         .hero h1 { font-size: 12vw; line-height: 0.75; text-transform: uppercase; font-weight: 900; }
-        /* 错位效果 */
         .t1 { margin-left: 0; }
         .t2 { margin-left: 15vw; color: transparent; -webkit-text-stroke: 2px var(--ink); }
         .t3 { margin-left: 5vw; font-size: 14vw; color: var(--red); }
-        
         .hero .sub { margin-top: 2rem; font-family: 'Space Grotesk'; font-size: 1.5rem; border-top: 2px solid var(--ink); display: inline-block; padding-top: 1rem; }
 
-        /* --- 4. 横向摄影作品 (图 1) --- */
+        /* --- 3. 摄影区 --- */
         .h-section { height: 350vh; background: #000; }
         .h-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; }
         .h-label { position: absolute; top: 10vh; left: 5vw; color: var(--accent); font-family: 'Space Grotesk'; font-size: 2rem; }
-        .photo-track { display: flex; gap: 10vw; padding: 0 10vw; transition: transform 0.1s linear; }
+        .photo-track { display: flex; gap: 10vw; padding: 0 10vw; }
         .photo-card { flex-shrink: 0; width: 45vw; height: 65vh; border: 1px solid rgba(255,255,255,0.2); }
-        .photo-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- 5. PPT 塔罗牌 (图 2) --- */
-        .ppt-section { height: 250vh; background: var(--bg); position: relative; margin-top: -1px; }
+        /* --- 4. PPT 区域 (合并了你的修改) --- */
+        .ppt-section { 
+            height: 300vh; /* 增加滚动长度，创造图2的间距感 */
+            background: var(--bg); 
+            position: relative; 
+            margin-top: -1px;
+            padding-bottom: 50vh; /* 底部大留白 */
+        }
         .ppt-sticky { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .ppt-title { font-family: 'Space Grotesk'; font-size: 3.5rem; margin-bottom: 5vh; color: var(--ink); }
+        .ppt-title { font-family: 'Space Grotesk'; font-size: 3.5rem; margin-bottom: 5vh; }
         .ppt-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: flex-end; }
+        
         .ppt-card {
             position: absolute;
-            width: 40vw;
-            aspect-ratio: 16 / 9;
-            background: #fff;
-            border: 2px solid var(--ink);
+            width: 45vw; aspect-ratio: 16 / 9;
+            background: #fff; border: 2px solid var(--ink);
             transform-origin: bottom center;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             overflow: hidden;
-            display: flex; flex-direction: column;
+            z-index: 1;
+        }
+
+        /* 鼠标悬停逻辑：使用 JS 传过来的变量 --tx 和 --ty */
+        .ppt-card:hover {
+            z-index: 100 !important;
+            transform: translateX(var(--tx)) translateY(var(--ty)) rotate(0deg) scale(1.1) !important;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.3);
         }
         .ppt-card img { width: 100%; height: 80%; object-fit: cover; }
-        .ppt-card .label { padding: 1rem; font-weight: 900; font-size: 1.2rem; background: #fff; }
+        .ppt-card .label { padding: 1rem; font-weight: 900; }
 
-        /* --- 6. 视频区文件夹细节 (图 3) --- */
+        /* --- 5. 视频区文件夹 --- */
         .video-section { padding: 15vh 5vw; background: var(--bg); }
-        .folder {
-            border: 2px solid var(--ink);
-            background: #fff;
-            position: relative;
-            padding: 50px 30px 30px 30px;
-        }
-        /* 文件夹顶部的深蓝页签 */
+        .folder { border: 2px solid var(--ink); background: #fff; position: relative; padding: 50px 30px 30px 30px; }
         .folder::before {
             content: "PROJECT_VIDEO_REEL_2026.MOV";
-            position: absolute;
-            top: -2px; left: -2px;
-            height: 40px; width: 320px;
-            background: var(--ink);
-            color: #fff;
-            font-size: 12px;
-            display: flex; align-items: center; padding-left: 20px;
-            font-family: 'Space Grotesk';
+            position: absolute; top: -2px; left: -2px;
+            height: 40px; width: 320px; background: var(--ink); color: #fff;
+            display: flex; align-items: center; padding-left: 20px; font-family: 'Space Grotesk'; font-size: 12px;
         }
         .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .video-box { border: 1px solid var(--ink); background: #000; aspect-ratio: 16/9; position: relative; }
-        .video-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+        .video-box { border: 1px solid var(--ink); background: #000; aspect-ratio: 16/9; position: relative; overflow: hidden; }
+        .video-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
         .video-box:hover img { opacity: 1; }
 
     </style>
@@ -118,7 +95,6 @@
 <body>
 
     <div class="cursor-star" id="cursor"></div>
-    <div class="fixed-header">MY PROFILE</div>
 
     <section class="hero">
         <div class="title-wrap">
@@ -137,7 +113,6 @@
                 <div class="photo-card"><img src="https://images.unsplash.com/photo-1511871893393-82e9c16b81e3?w=1200"></div>
                 <div class="photo-card"><img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=1200"></div>
                 <div class="photo-card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1200"></div>
-                <div class="photo-card"><img src="https://images.unsplash.com/photo-1500622764614-be3c17a4aefc?w=1200"></div>
             </div>
         </div>
     </section>
@@ -166,7 +141,6 @@
     </section>
 
     <script>
-        // 1. 星星光标跟随
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
@@ -174,28 +148,31 @@
         });
 
         window.addEventListener('scroll', () => {
-            const scrollY = window.pageYOffset;
-
-            // 2. 摄影区横移逻辑
+            // 摄影区横移
             const hSec = document.getElementById('hSec');
             const hTrack = document.getElementById('hTrack');
             const hRect = hSec.getBoundingClientRect();
-            if (hRect.top < 0 && hRect.bottom > 0) {
+            if (hRect.top < 0) {
                 const move = -hRect.top / (hSec.offsetHeight - window.innerHeight);
                 hTrack.style.transform = `translateX(-${move * 70}%)`;
             }
 
-            // 3. PPT 扇形展开逻辑 (精准校正)
+            // PPT 扇形展开逻辑
             const pptSec = document.getElementById('pptSec');
             const cards = document.querySelectorAll('.ppt-card');
             const pRect = pptSec.getBoundingClientRect();
             const pProg = Math.min(Math.max(-pRect.top / (pptSec.offsetHeight - window.innerHeight), 0), 1);
 
             cards.forEach((card, index) => {
-                const i = index - 2; // 以中间卡片为轴
-                const rotate = i * 15 * pProg;   // 旋转角度
-                const x = i * 180 * pProg;       // 横向展开距离
-                const y = Math.abs(i) * 40 * pProg; // 纵向弧度
+                const i = index - 2;
+                const rotate = i * 15 * pProg;
+                const x = i * 220 * pProg;
+                const y = Math.abs(i) * 50 * pProg;
+                
+                // 设置变量供 CSS Hover 使用
+                card.style.setProperty('--tx', `${x}px`);
+                card.style.setProperty('--ty', `${y}px`);
+                
                 card.style.transform = `translateX(${x}px) translateY(${y}px) rotate(${rotate}deg)`;
             });
         });
