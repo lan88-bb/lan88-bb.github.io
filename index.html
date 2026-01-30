@@ -2,260 +2,201 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8"/>
-    <title>MY PROFILE | Portfolio</title>
+    <title>MY PROFILE | Portfolio 2026</title>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #f0ede5;          /* 复古纸张底色 */
-            --ink: #1a4da3;         /* 印染蓝 */
-            --red: #7a1f1f;         /* 装饰红 */
-            --accent: #D2FF00;      /* 霓虹绿点缀 */
+            --bg: #f0ede5;
+            --ink: #1a4da3;
+            --red: #7a1f1f;
+            --accent: #D2FF00;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* --- 1. 强制自定义星星光标 --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+        .cursor-star {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            background: var(--red);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            pointer-events: none;
+            z-index: 100000;
+            transform: translate(-50%, -50%);
+        }
+
         body { background-color: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* --- 1. 全局固定元素 --- */
+        /* --- 2. 左上角固定文字 --- */
         .fixed-header {
             position: fixed;
             top: 2rem;
             left: 2rem;
-            z-index: 1000;
+            z-index: 10000;
             font-family: 'Space Grotesk';
             font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 2px;
             mix-blend-mode: difference;
-            color: white; /* 配合 difference 模式 */
+            color: #fff;
         }
 
-        /* --- 2. Hero 标题区 --- */
+        /* --- 3. 错落有致的首页标题 (参考截图样式) --- */
         .hero {
             height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
-        }
-        .hero h1 { font-size: 15vw; line-height: 0.8; font-weight: 900; text-transform: uppercase; }
-
-        /* --- 3. 横向摄影作品区 (如图 1) --- */
-        .horizontal-section {
-            height: 400vh; /* 滚动长度 */
-            position: relative;
-        }
-        .horizontal-sticky {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            width: 100%;
-            overflow: hidden;
-            background: #1a1d17; /* 切换为暗色背景突出摄影 */
-            color: white;
-        }
-        .nav-label {
-            position: absolute;
-            top: 10vh;
-            left: 5vw;
-            font-size: 2rem;
-            font-family: 'Space Grotesk';
-            border-bottom: 2px solid var(--accent);
-        }
-        .photo-track {
-            position: absolute;
-            top: 25vh;
-            left: 0;
-            display: flex;
-            padding: 0 10vw;
-            gap: 10vw;
-            transition: transform 0.1s linear;
-        }
-        .photo-card {
-            flex-shrink: 0;
-            width: 30vw;
-            height: 50vh;
-            position: relative;
-        }
-        .photo-card img { width: 100%; height: 100%; object-fit: cover; border: 1px solid rgba(255,255,255,0.2); }
-        .photo-card span { display: block; margin-top: 1rem; font-size: 0.8rem; opacity: 0.6; }
-
-        /* --- 4. PPT 塔罗牌堆叠区 (如图 2) --- */
-        .ppt-tarot-section {
-            height: 200vh;
-            background: var(--bg);
-            display: flex;
             justify-content: center;
-            align-items: center;
+            padding-left: 10vw;
             position: relative;
         }
-        .tarot-container {
-            position: sticky;
-            top: 15vh;
-            width: 100%;
-            height: 70vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 5vh;
-        }
-        .tarot-card {
-            position: absolute;
-            width: 250px;
-            height: 380px;
-            background: white;
-            border: 2px solid var(--ink);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transform-origin: bottom center;
-            transition: transform 0.5s ease, z-index 0.1s;
-            overflow: hidden;
-        }
-        .tarot-card img { width: 100%; height: 75%; object-fit: cover; }
-        .tarot-card .info { padding: 15px; font-weight: 900; }
+        .hero .title-wrap { position: relative; }
+        .hero h1 { font-size: 12vw; line-height: 0.75; text-transform: uppercase; font-weight: 900; }
+        /* 错位效果 */
+        .t1 { margin-left: 0; }
+        .t2 { margin-left: 15vw; color: transparent; -webkit-text-stroke: 2px var(--ink); }
+        .t3 { margin-left: 5vw; font-size: 14vw; color: var(--red); }
+        
+        .hero .sub { margin-top: 2rem; font-family: 'Space Grotesk'; font-size: 1.5rem; border-top: 2px solid var(--ink); display: inline-block; padding-top: 1rem; }
 
-        /* --- 5. 视频区 (如图 3 文件夹感) --- */
-        .video-folder-section {
-            padding: 10vh 5vw;
-            background: var(--bg);
-        }
-        .folder-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 40px;
-        }
-        .video-item {
+        /* --- 4. 横向摄影作品 (图 1) --- */
+        .h-section { height: 350vh; background: #000; }
+        .h-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; }
+        .h-label { position: absolute; top: 10vh; left: 5vw; color: var(--accent); font-family: 'Space Grotesk'; font-size: 2rem; }
+        .photo-track { display: flex; gap: 10vw; padding: 0 10vw; transition: transform 0.1s linear; }
+        .photo-card { flex-shrink: 0; width: 45vw; height: 65vh; border: 1px solid rgba(255,255,255,0.2); }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); }
+
+        /* --- 5. PPT 塔罗牌 (图 2) --- */
+        .ppt-section { height: 250vh; background: var(--bg); position: relative; margin-top: -1px; }
+        .ppt-sticky { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .ppt-title { font-family: 'Space Grotesk'; font-size: 3.5rem; margin-bottom: 5vh; color: var(--ink); }
+        .ppt-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: flex-end; }
+        .ppt-card {
+            position: absolute;
+            width: 40vw;
+            aspect-ratio: 16 / 9;
             background: #fff;
             border: 2px solid var(--ink);
-            position: relative;
-            padding-top: 30px; /* 模拟文件夹页签 */
-        }
-        .video-item::before {
-            content: "VIDEO_REEL_01.MP4";
-            position: absolute;
-            top: 0; left: 0; width: 60%; height: 30px;
-            background: var(--ink);
-            color: white;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-        }
-        .video-preview {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #000;
+            transform-origin: bottom center;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
             overflow: hidden;
+            display: flex; flex-direction: column;
         }
-        .video-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; }
-        .video-item:hover img { opacity: 1; transform: scale(1.05); }
+        .ppt-card img { width: 100%; height: 80%; object-fit: cover; }
+        .ppt-card .label { padding: 1rem; font-weight: 900; font-size: 1.2rem; background: #fff; }
+
+        /* --- 6. 视频区文件夹细节 (图 3) --- */
+        .video-section { padding: 15vh 5vw; background: var(--bg); }
+        .folder {
+            border: 2px solid var(--ink);
+            background: #fff;
+            position: relative;
+            padding: 50px 30px 30px 30px;
+        }
+        /* 文件夹顶部的深蓝页签 */
+        .folder::before {
+            content: "PROJECT_VIDEO_REEL_2026.MOV";
+            position: absolute;
+            top: -2px; left: -2px;
+            height: 40px; width: 320px;
+            background: var(--ink);
+            color: #fff;
+            font-size: 12px;
+            display: flex; align-items: center; padding-left: 20px;
+            font-family: 'Space Grotesk';
+        }
+        .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .video-box { border: 1px solid var(--ink); background: #000; aspect-ratio: 16/9; position: relative; }
+        .video-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+        .video-box:hover img { opacity: 1; }
 
     </style>
 </head>
 <body>
 
+    <div class="cursor-star" id="cursor"></div>
     <div class="fixed-header">MY PROFILE</div>
 
     <section class="hero">
-        <h1>PORT</h1>
-        <h1 style="color: transparent; -webkit-text-stroke: 2px var(--ink);">FOLIO</h1>
+        <div class="title-wrap">
+            <h1 class="t1">Port</h1>
+            <h1 class="t2">Folio</h1>
+            <h1 class="t3">2026</h1>
+        </div>
+        <div class="sub">BRAND & VISUAL DESIGN</div>
     </section>
 
-    <section class="horizontal-section" id="horizontal">
-        <div class="horizontal-sticky">
-            <div class="nav-label">PHOTOGRAPHIC WORKS</div>
-            <div class="photo-track" id="track">
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800">
-                    <span>01 / ICELAND, 2024</span>
-                </div>
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1511871893393-82e9c16b81e3?w=800">
-                    <span>02 / TOKYO, 2024</span>
-                </div>
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=800">
-                    <span>03 / PARIS, 2024</span>
-                </div>
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800">
-                    <span>04 / ALPS, 2024</span>
-                </div>
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800">
-                    <span>05 / SHORE, 2024</span>
-                </div>
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800">
-                    <span>06 / FOREST, 2024</span>
-                </div>
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800">
-                    <span>07 / PEAK, 2024</span>
-                </div>
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1500622764614-be3c17a4aefc?w=800">
-                    <span>08 / VALLEY, 2024</span>
-                </div>
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800">
-                    <span>09 / NATURE, 2024</span>
-                </div>
+    <section class="h-section" id="hSec">
+        <div class="h-sticky">
+            <div class="h-label">PHOTOGRAPHIC WORKS</div>
+            <div class="photo-track" id="hTrack">
+                <div class="photo-card"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200"></div>
+                <div class="photo-card"><img src="https://images.unsplash.com/photo-1511871893393-82e9c16b81e3?w=1200"></div>
+                <div class="photo-card"><img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=1200"></div>
+                <div class="photo-card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1200"></div>
+                <div class="photo-card"><img src="https://images.unsplash.com/photo-1500622764614-be3c17a4aefc?w=1200"></div>
             </div>
         </div>
     </section>
 
-    <section class="ppt-tarot-section">
-        <div class="tarot-container">
-            <div class="tarot-card" style="--i:1"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500"><div class="info">DECK 01</div></div>
-            <div class="tarot-card" style="--i:2"><img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=500"><div class="info">DECK 02</div></div>
-            <div class="tarot-card" style="--i:3"><img src="https://images.unsplash.com/photo-1512448811101-680eb9265911?w=500"><div class="info">DECK 03</div></div>
-            <div class="tarot-card" style="--i:4"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500"><div class="info">DECK 04</div></div>
-            <div class="tarot-card" style="--i:5"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500"><div class="info">DECK 05</div></div>
+    <section class="ppt-section" id="pptSec">
+        <div class="ppt-sticky">
+            <div class="ppt-title">PRESENTATION DECKS</div>
+            <div class="ppt-container">
+                <div class="ppt-card" style="z-index: 5;"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1000"><div class="label">DECK 01</div></div>
+                <div class="ppt-card" style="z-index: 4;"><img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=1000"><div class="label">DECK 02</div></div>
+                <div class="ppt-card" style="z-index: 3;"><img src="https://images.unsplash.com/photo-1512448811101-680eb9265911?w=1000"><div class="label">DECK 03</div></div>
+                <div class="ppt-card" style="z-index: 2;"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1000"><div class="label">DECK 04</div></div>
+                <div class="ppt-card" style="z-index: 1;"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1000"><div class="label">DECK 05</div></div>
+            </div>
         </div>
     </section>
 
-    <section class="video-folder-section">
-        <h2 style="margin-bottom: 5vh; font-family: 'Space Grotesk'; font-size: 3rem;">EDITING REEL</h2>
-        <div class="folder-grid">
-            <div class="video-item">
-                <div class="video-preview">
-                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800">
-                </div>
-            </div>
-            <div class="video-item">
-                <div class="video-preview">
-                    <img src="https://images.unsplash.com/photo-1492691523567-61322558ddfd?w=800">
-                </div>
+    <section class="video-section">
+        <div class="folder">
+            <h2 style="font-family: 'Space Grotesk'; font-size: 3rem; margin-bottom: 2rem;">EDITING REEL</h2>
+            <div class="video-grid">
+                <div class="video-box"><img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1000"></div>
+                <div class="video-box"><img src="https://images.unsplash.com/photo-1492691523567-61322558ddfd?w=1000"></div>
             </div>
         </div>
     </section>
 
     <script>
+        // 1. 星星光标跟随
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
         window.addEventListener('scroll', () => {
             const scrollY = window.pageYOffset;
 
-            // 1. 横向滚动控制
-            const horizontalSection = document.getElementById('horizontal');
-            const track = document.getElementById('track');
-            const hRect = horizontalSection.getBoundingClientRect();
-            
-            if (hRect.top < 0 && hRect.bottom > window.innerHeight) {
-                const movePercent = (-hRect.top / (horizontalSection.offsetHeight - window.innerHeight)) * 100;
-                track.style.transform = `translateX(-${movePercent * 0.75}%)`; // 0.75 调节滑动速度
+            // 2. 摄影区横移逻辑
+            const hSec = document.getElementById('hSec');
+            const hTrack = document.getElementById('hTrack');
+            const hRect = hSec.getBoundingClientRect();
+            if (hRect.top < 0 && hRect.bottom > 0) {
+                const move = -hRect.top / (hSec.offsetHeight - window.innerHeight);
+                hTrack.style.transform = `translateX(-${move * 70}%)`;
             }
 
-            // 2. 塔罗牌扇形展开控制 (如图 2)
-            const tarotSection = document.querySelector('.ppt-tarot-section');
-            const cards = document.querySelectorAll('.tarot-card');
-            const tRect = tarotSection.getBoundingClientRect();
-            const tProgress = Math.min(Math.max(-tRect.top / (tarotSection.offsetHeight - window.innerHeight), 0), 1);
+            // 3. PPT 扇形展开逻辑 (精准校正)
+            const pptSec = document.getElementById('pptSec');
+            const cards = document.querySelectorAll('.ppt-card');
+            const pRect = pptSec.getBoundingClientRect();
+            const pProg = Math.min(Math.max(-pRect.top / (pptSec.offsetHeight - window.innerHeight), 0), 1);
 
             cards.forEach((card, index) => {
-                const i = index - 2; // 中心点偏移
-                const rotate = i * 15 * tProgress; // 展开角度
-                const translateX = i * 100 * tProgress; // 展开宽度
-                const translateY = Math.abs(i) * 20 * tProgress; // 弧度
-                card.style.transform = `translateX(${translateX}px) translateY(${translateY}px) rotate(${rotate}deg)`;
+                const i = index - 2; // 以中间卡片为轴
+                const rotate = i * 15 * pProg;   // 旋转角度
+                const x = i * 180 * pProg;       // 横向展开距离
+                const y = Math.abs(i) * 40 * pProg; // 纵向弧度
+                card.style.transform = `translateX(${x}px) translateY(${y}px) rotate(${rotate}deg)`;
             });
         });
     </script>
