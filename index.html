@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <title>MY PROFILE | 陈钰方 2026</title>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;900&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -33,128 +33,147 @@
             transition: transform 0.1s ease-out;
         }
 
-        /* --- 1. 封面 (增加了缩小退场动画) --- */
-        .hero { 
-            height: 100vh; 
-            display: flex; flex-direction: column; justify-content: center; 
-            padding: 0 5vw;
-            position: fixed; /* 改为 fixed 以便被遮盖，或者配合 JS 做缩小效果 */
-            top: 0; left: 0; width: 100%;
-            z-index: 1; /* 层级最低 */
-            background: var(--bg);
-            will-change: transform, opacity; /* 性能优化 */
+        /* --- 通用：固定层样式 (用于 Intro 和 Hero) --- */
+        .fixed-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            display: flex; flex-direction: column; justify-content: center;
+            will-change: transform, opacity;
         }
-        .hero-spacer { height: 100vh; } /* 占位符，因为 hero 变成了 fixed */
+        .spacer { height: 100vh; } /* 占位符，制造滚动距离 */
 
+        /* --- 1. 新增：个人简介页 (Intro) --- */
+        #intro {
+            z-index: 10; /* 最高层级，最先显示 */
+            background: var(--bg);
+            align-items: center;
+            text-align: center;
+        }
+        .avatar-frame {
+            width: 200px; height: 200px;
+            background: #ccc; /* 这里放你的照片 */
+            border-radius: 50%; /* 圆形头像，如需方形去掉这行 */
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 2px solid var(--ink);
+        }
+        .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .intro-name { font-family: 'Unbounded'; font-size: 3rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .intro-role { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.7; }
+        .intro-contact { 
+            border: 1px solid var(--ink); padding: 10px 30px; 
+            border-radius: 50px; font-weight: bold; 
+            transition: 0.3s;
+        }
+        .intro-contact:hover { background: var(--ink); color: #fff; }
+
+        /* --- 2. 封面页 (Hero) --- */
+        #hero {
+            z-index: 5; /* 在 Intro 下面，但在内容上面 */
+            background: var(--bg);
+            padding: 0 5vw;
+        }
         .hero h1 { 
             font-family: 'Unbounded', sans-serif; 
             text-transform: uppercase; 
-            line-height: 0.85;
-            letter-spacing: -0.05em;
+            line-height: 0.85; letter-spacing: -0.05em;
         }
         .t-port { font-size: 15vw; margin-left: -1vw; }
         .t-folio { font-size: 15vw; margin-left: 10vw; -webkit-text-stroke: 3px var(--ink); color: transparent; }
-        
         .t-2026 { 
             font-size: 18vw; color: var(--red); 
             margin-top: -2vw; align-self: flex-end; position: relative;
         }
-        .t-2026::after {
-            content: '*'; position: absolute; top: 0; right: -5vw; font-size: 10vw; color: var(--ink);
-        }
+        .t-2026::after { content: '*'; position: absolute; top: 0; right: -5vw; font-size: 10vw; color: var(--ink); }
 
-        /* --- 跑马灯动效 --- */
         .marquee-wrap {
-            margin-top: 5vh;
-            overflow: hidden;
-            white-space: nowrap;
-            border-top: 2px solid var(--ink);
-            border-bottom: 2px solid var(--ink);
-            padding: 1rem 0;
-            display: flex;
+            margin-top: 5vh; overflow: hidden; white-space: nowrap;
+            border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+            padding: 1rem 0; display: flex;
         }
         .marquee-content {
-            display: inline-block;
-            animation: marquee 20s linear infinite;
-            font-size: 1.2rem;
-            font-weight: 700;
-            padding-right: 50px;
+            display: inline-block; animation: marquee 20s linear infinite;
+            font-size: 1.2rem; font-weight: 700; padding-right: 50px;
         }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* --- 2. 摄影区 (背景变色核心区) --- */
+        /* --- 3. 摄影区 (背景变色核心区) --- */
         .h-section { 
-            height: 400vh; /* 拉长一点让变色更从容 */
+            height: 400vh; 
             position: relative; 
-            z-index: 2; /* 盖住封面 */
-            /* 初始背景设为透明，由 JS 控制变色，或者默认深蓝 */
+            z-index: 2; 
             background-color: var(--dark); 
+            
+            /* 定义一个动态颜色变量，初始为白色 */
+            --dynamic-color: #ffffff; 
         }
-        .h-sticky { 
-            position: sticky; top: 0; height: 100vh; 
-            overflow: hidden; display: flex; align-items: center; 
-        }
+        .h-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; }
+        
+        /* 标题样式升级：更粗、更有设计感 */
         .h-label { 
             position: absolute; top: 8vh; left: 5vw; 
-            font-size: 1.5rem; letter-spacing: 0.2em; color: #fff; /* 初始白色 */
-            transition: color 0.2s; /* 颜色也要跟着变 */
+            font-family: 'Unbounded', sans-serif; 
+            font-weight: 900;
+            font-size: 2.5rem; 
+            line-height: 1.1;
+            color: var(--dynamic-color); /* 应用动态颜色 */
+            transition: color 0.1s linear;
         }
-        .photo-track { display: flex; gap: 8vw; padding: 0 10vw; will-change: transform; }
-        .photo-card { 
-            flex-shrink: 0; width: 45vw; height: 65vh; 
-            border: 1px solid rgba(255,255,255,0.3);
-            transition: 0.3s;
-        }
-        .photo-card:hover { transform: scale(1.02); }
-        .photo-card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- 3. 扇形通用样式 (PPT & 视频) --- */
+        .photo-track { display: flex; gap: 8vw; padding: 0 10vw; will-change: transform; }
+        
+        .photo-wrapper {
+            flex-shrink: 0; display: flex; flex-direction: column; gap: 15px;
+        }
+        .photo-card { 
+            width: 45vw; height: 60vh; 
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: 0.3s;
+            overflow: hidden;
+        }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .photo-card:hover img { transform: scale(1.1); }
+        
+        /* 作品名字：跟随背景变色 */
+        .photo-name {
+            font-family: 'Space Grotesk'; font-size: 0.9rem; letter-spacing: 1px;
+            border-top: 1px solid var(--dynamic-color); /* 线条也变色 */
+            padding-top: 10px;
+            color: var(--dynamic-color); /* 文字变色 */
+            transition: color 0.1s linear, border-color 0.1s linear;
+        }
+
+        /* --- 4. 扇形通用样式 (PPT & 视频) --- */
         .fan-section { 
             height: 250vh; 
-            background: var(--bg); /* 此时已经是米白，衔接摄影区结束时的颜色 */
-            position: relative; 
-            z-index: 3;
-            padding-bottom: 20vh;
+            background: var(--bg); /* 米白 */
+            position: relative; z-index: 3; padding-bottom: 20vh;
         }
         .fan-sticky { position: sticky; top: 0; height: 100vh; display: flex; justify-content: center; align-items: center; }
         
-        /* PPT 区域样式 */
         .ppt-title { font-family: 'Unbounded'; font-size: 3rem; margin-bottom: 5vh; color: var(--ink); z-index: 10; }
         .ppt-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: flex-end; }
 
-        /* 视频文件夹样式 */
         .folder-box {
             width: 90vw; height: 75vh;
-            border: 3px solid var(--ink);
-            background: #fff;
-            position: relative;
-            box-shadow: 15px 15px 0px var(--ink);
-            display: flex; justify-content: center; align-items: center;
+            border: 3px solid var(--ink); background: #fff; position: relative;
+            box-shadow: 15px 15px 0px var(--ink); display: flex; justify-content: center; align-items: center;
         }
         .folder-tab {
             position: absolute; top: -43px; left: -3px;
-            background: var(--ink); color: #fff;
-            padding: 8px 25px; font-size: 14px; font-weight: bold;
+            background: var(--ink); color: #fff; padding: 8px 25px; font-size: 14px; font-weight: bold;
         }
         .folder-title { position: absolute; top: 30px; left: 30px; font-size: 3rem; font-family: 'Unbounded'; }
 
-        /* 通用卡片样式 */
         .fan-card {
-            position: absolute;
-            width: 40vw; aspect-ratio: 16/9;
+            position: absolute; width: 40vw; aspect-ratio: 16/9;
             background: #fff; border: 2px solid var(--ink);
-            transform-origin: bottom center;
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(26,77,163,0.15);
+            transform-origin: bottom center; transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden; box-shadow: 0 10px 30px rgba(26,77,163,0.15);
         }
         .fan-card img { width: 100%; height: 100%; object-fit: cover; }
         .fan-card:hover {
-            z-index: 100 !important;
-            transform: translateX(var(--tx)) translateY(var(--ty)) rotate(0deg) scale(1.1) !important;
+            z-index: 100 !important; transform: translateX(var(--tx)) translateY(var(--ty)) rotate(0deg) scale(1.1) !important;
         }
         .fan-card .label { 
             position: absolute; bottom: 0; left: 0; width: 100%; 
@@ -167,7 +186,17 @@
 
     <div class="cursor-star" id="cursor"></div>
 
-    <div class="hero" id="hero">
+    <div class="fixed-layer" id="intro">
+        <div class="avatar-frame">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500" alt="Profile">
+        </div>
+        <h2 class="intro-name">Chen Yufang</h2>
+        <p class="intro-role">Brand Designer & Visual Artist</p>
+        <div class="intro-contact">chenyufang2026@email.com</div>
+    </div>
+    <div class="spacer"></div>
+
+    <div class="fixed-layer" id="hero">
         <h1 class="t-port">PORT</h1>
         <h1 class="t-folio">FOLIO</h1>
         <h1 class="t-2026">2026</h1>
@@ -178,17 +207,31 @@
             </div>
         </div>
     </div>
-    <div class="hero-spacer"></div>
+    <div class="spacer"></div>
 
     <section class="h-section" id="hSec">
         <div class="h-sticky">
-            <div class="h-label" id="hLabel">COLLECTION 01 / PHOTOGRAPHY</div>
+            <div class="h-label">
+                COLLECTION 01<br>
+                PHOTOGRAPHY
+            </div>
             <div class="photo-track" id="hTrack">
-                <div class="photo-card"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200"></div>
-                <div class="photo-card"><img src="https://images.unsplash.com/photo-1511871893393-82e9c16b81e3?w=1200"></div>
-                <div class="photo-card"><img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=1200"></div>
-                <div class="photo-card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1200"></div>
-                <div class="photo-card"><img src="https://images.unsplash.com/photo-1500622764614-be3c17a4aefc?w=1200"></div>
+                <div class="photo-wrapper">
+                    <div class="photo-card"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200"></div>
+                    <div class="photo-name">NEON NIGHTS / 2024</div>
+                </div>
+                <div class="photo-wrapper">
+                    <div class="photo-card"><img src="https://images.unsplash.com/photo-1511871893393-82e9c16b81e3?w=1200"></div>
+                    <div class="photo-name">URBAN GEOMETRY / 2025</div>
+                </div>
+                <div class="photo-wrapper">
+                    <div class="photo-card"><img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=1200"></div>
+                    <div class="photo-name">FILM GRAIN / 2023</div>
+                </div>
+                <div class="photo-wrapper">
+                    <div class="photo-card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1200"></div>
+                    <div class="photo-name">NATURE STUDY / 2024</div>
+                </div>
             </div>
         </div>
     </section>
@@ -201,7 +244,6 @@
                 <div class="fan-card ppt-card" style="z-index: 4;"><img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=1000"><div class="label">BUSINESS PLAN 02</div></div>
                 <div class="fan-card ppt-card" style="z-index: 3;"><img src="https://images.unsplash.com/photo-1512448811101-680eb9265911?w=1000"><div class="label">MARKETING 03</div></div>
                 <div class="fan-card ppt-card" style="z-index: 2;"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1000"><div class="label">REPORT 04</div></div>
-                <div class="fan-card ppt-card" style="z-index: 1;"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1000"><div class="label">STRATEGY 05</div></div>
             </div>
         </div>
     </section>
@@ -211,7 +253,6 @@
             <div class="folder-box">
                 <div class="folder-tab">VIDEO_REEL_LIST.MOV</div>
                 <h2 class="folder-title">EDITING REEL</h2>
-                
                 <div class="fan-card v-card" style="z-index:3"><img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1000"></div>
                 <div class="fan-card v-card" style="z-index:2"><img src="https://images.unsplash.com/photo-1492691523567-61322558ddfd?w=1000"></div>
                 <div class="fan-card v-card" style="z-index:1"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1000"></div>
@@ -220,79 +261,87 @@
     </section>
 
     <script>
-        // 光标跟随
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
         });
 
-        // 颜色插值函数 (用于背景变色)
+        // 颜色插值函数
         function interpolateColor(color1, color2, factor) {
             if (arguments.length < 3) { factor = 0.5; }
-            var result = result || {r:0,g:0,b:0};
             color1 = color1.match(/\d+/g).map(Number);
             color2 = color2.match(/\d+/g).map(Number);
-            
-            // 简单线性插值
             var r = Math.round(color1[0] + factor * (color2[0] - color1[0]));
             var g = Math.round(color1[1] + factor * (color2[1] - color1[1]));
             var b = Math.round(color1[2] + factor * (color2[2] - color1[2]));
             return `rgb(${r}, ${g}, ${b})`;
         }
 
+        const intro = document.getElementById('intro');
         const hero = document.getElementById('hero');
         const hSec = document.getElementById('hSec');
         const hTrack = document.getElementById('hTrack');
-        const hLabel = document.getElementById('hLabel');
 
         window.addEventListener('scroll', () => {
             const scrollY = window.pageYOffset;
             const winH = window.innerHeight;
 
-            // --- 1. 封面动效：缩小 + 透明 ---
-            // 当滚动小于 1 屏高度时触发
+            // --- 1. Intro 退场 (0 - 100vh) ---
             if (scrollY <= winH) {
-                const opacity = 1 - (scrollY / winH);
-                const scale = 1 - (scrollY / winH) * 0.2; // 稍微缩小一点
-                hero.style.opacity = Math.max(opacity, 0);
-                hero.style.transform = `scale(${scale})`;
+                const prog = scrollY / winH; // 0 到 1
+                const opacity = Math.max(1 - prog * 1.5, 0); // 加速变透明
+                const scale = 1 - prog * 0.2;
+                intro.style.opacity = opacity;
+                intro.style.transform = `scale(${scale})`;
+                intro.style.pointerEvents = opacity <= 0 ? 'none' : 'auto';
+            } else {
+                intro.style.opacity = 0;
             }
 
-            // --- 2. 摄影区：横移 + 背景变色 ---
+            // --- 2. Hero 退场 (100vh - 200vh) ---
+            // 只有当 Intro 走完了，Hero 才开始动
+            if (scrollY > winH && scrollY <= winH * 2) {
+                const prog = (scrollY - winH) / winH; // 0 到 1
+                const opacity = Math.max(1 - prog, 0);
+                const scale = 1 - prog * 0.2;
+                hero.style.opacity = opacity;
+                hero.style.transform = `scale(${scale})`;
+            } else if (scrollY > winH * 2) {
+                hero.style.opacity = 0; // 滚过了就藏起来
+            } else {
+                hero.style.opacity = 1; // 还没滚到就显示
+                hero.style.transform = `scale(1)`;
+            }
+
+            // --- 3. 摄影区逻辑 ---
             const hRect = hSec.getBoundingClientRect();
-            // 计算摄影区的滚动进度 (0 到 1)
+            // 注意：因为前面有两个 100vh 的 spacer，所以摄影区在 200vh 后才开始真正滚动
+            // 计算视口在 hSec 内部的进度
             let hProg = -hRect.top / (hSec.offsetHeight - winH);
             hProg = Math.min(Math.max(hProg, 0), 1);
 
-            // A. 横移
+            // A. 横向滚动
             hTrack.style.transform = `translateX(-${hProg * 60}%)`;
 
-            // B. 背景变色 (深蓝 -> 米白)
-            // 深蓝: rgb(13, 38, 82) | 米白: rgb(244, 241, 234)
-            // 我们让它在进度 0.2 到 0.8 之间完成变色，不用一开始就变
+            // B. 颜色变换 (背景 + 字体)
             let colorProg = (hProg - 0.2) * 1.5; 
             colorProg = Math.min(Math.max(colorProg, 0), 1);
+
+            // 背景：深蓝 -> 米白
+            const bgColor = interpolateColor('rgb(13, 38, 82)', 'rgb(244, 241, 234)', colorProg);
+            hSec.style.backgroundColor = bgColor;
+
+            // 字体：白 -> 深蓝 (与背景相反)
+            const textColor = interpolateColor('rgb(255, 255, 255)', 'rgb(26, 77, 163)', colorProg);
             
-            const newColor = interpolateColor('rgb(13, 38, 82)', 'rgb(244, 241, 234)', colorProg);
-            hSec.style.backgroundColor = newColor;
+            // 将计算出的颜色赋给 CSS 变量，这样所有文字都会自动变色
+            hSec.style.setProperty('--dynamic-color', textColor);
 
-            // 摄影区的文字颜色也要从白变蓝，防止看不见
-            if (colorProg > 0.5) {
-                hLabel.style.color = 'var(--ink)';
-                hTrack.style.borderColor = 'rgba(26, 77, 163, 0.3)'; // 边框变色
-            } else {
-                hLabel.style.color = '#fff';
-            }
-
-            // --- 3. PPT 扇形 ---
+            // --- 4. 扇形动画 ---
             fanAnimation('pptSec', '.ppt-card', 220, 15);
-
-            // --- 4. 视频 扇形 ---
             fanAnimation('videoSec', '.v-card', 260, 18);
         });
 
-        // 封装扇形动画函数
         function fanAnimation(sectionId, cardClass, xSpacing, rotAngle) {
             const sec = document.getElementById(sectionId);
             const cards = document.querySelectorAll(cardClass);
@@ -305,10 +354,14 @@
                 const rotate = i * rotAngle * prog;
                 const x = i * xSpacing * prog;
                 const y = Math.abs(i) * 40 * prog;
-
                 card.style.setProperty('--tx', `${x}px`);
                 card.style.setProperty('--ty', `${y}px`);
                 card.style.transform = `translateX(${x}px) translateY(${y}px) rotate(${rotate}deg)`;
+            });
+        }
+    </script>
+</body>
+</html>
             });
         }
     </script>
