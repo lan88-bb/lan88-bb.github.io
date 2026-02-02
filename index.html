@@ -33,6 +33,22 @@
             transition: transform 0.1s ease-out;
         }
 
+        /* --- 通用：统一标题样式系统 --- */
+        /* 放在 sticky 容器内部，绝对定位在左上角 */
+        .section-header {
+            position: absolute; top: 10vh; left: 5vw;
+            z-index: 10; text-align: left;
+        }
+        .sec-sub {
+            font-family: 'Space Grotesk'; font-size: 0.9rem; letter-spacing: 0.2em;
+            font-weight: 700; margin-bottom: 1rem; opacity: 0.8;
+            text-transform: uppercase;
+        }
+        .sec-title {
+            font-family: 'Unbounded', sans-serif; font-weight: 900;
+            font-size: 3.5rem; line-height: 1; text-transform: uppercase;
+        }
+
         /* --- 结构层级 --- */
         .fixed-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
@@ -41,69 +57,43 @@
             padding: 0 5vw;
         }
 
-        /* 1. Intro 层 (最顶层 Z-20) */
+        /* 1. Intro 层 */
         #intro {
-            z-index: 20; 
-            background: var(--bg);
-            align-items: center;
-            text-align: center;
+            z-index: 20; background: var(--bg); align-items: center; text-align: center;
         }
         .avatar-frame {
-            width: 180px; height: 180px;
-            background: #e0e0e0;
-            border-radius: 50%; 
-            margin-bottom: 3vh;
-            overflow: hidden;
-            border: 2px solid var(--ink);
+            width: 180px; height: 180px; background: #e0e0e0; border-radius: 50%; 
+            margin-bottom: 3vh; overflow: hidden; border: 2px solid var(--ink);
         }
         .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
         .intro-name { font-family: 'Unbounded'; font-weight: 900; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1vh; }
         .intro-role { font-size: 1rem; margin-bottom: 3vh; opacity: 0.7; letter-spacing: 1px; }
         .intro-contact { 
             border: 1px solid var(--ink); padding: 12px 35px; 
-            border-radius: 50px; font-weight: bold; font-size: 0.9rem;
-            transition: 0.3s;
+            border-radius: 50px; font-weight: bold; font-size: 0.9rem; transition: 0.3s;
         }
         .intro-contact:hover { background: var(--ink); color: #fff; }
 
-        /* 2. Hero 层 (中间层 Z-10) */
+        /* 2. Hero 层 */
         #hero {
-            z-index: 10;
-            background: var(--bg);
-            justify-content: center; /* 垂直居中 */
+            z-index: 10; background: var(--bg); justify-content: center;
         }
-        /* 标题设计感修复 */
         .hero-title-group {
-            display: flex; flex-direction: column;
-            justify-content: center;
-            height: 80vh; /* 留出空间给跑马灯 */
+            display: flex; flex-direction: column; justify-content: center; height: 80vh;
         }
         .t-line {
-            font-family: 'Unbounded', sans-serif; 
-            font-weight: 900;
-            text-transform: uppercase; 
-            line-height: 0.85; 
-            letter-spacing: -0.04em;
-            font-size: 13vw; /* 稍微调小一点防止溢出 */
+            font-family: 'Unbounded', sans-serif; font-weight: 900;
+            text-transform: uppercase; line-height: 0.85; letter-spacing: -0.04em; font-size: 13vw;
         }
         .t-indent { margin-left: 10vw; }
-        /* 描空效果 */
-        .t-stroke {
-            -webkit-text-stroke: 2px var(--ink);
-            color: transparent; 
-        }
-        /* 2026 和 星号 */
+        .t-stroke { -webkit-text-stroke: 2px var(--ink); color: transparent; }
         .t-year {
-            font-size: 4vw; 
-            color: var(--red); 
-            text-align: right; margin-right: 5vw; margin-top: 2vh;
-            font-family: 'Unbounded';
-            display: flex; justify-content: flex-end; align-items: flex-start;
+            font-size: 4vw; color: var(--red); text-align: right; margin-right: 5vw; margin-top: 2vh;
+            font-family: 'Unbounded'; display: flex; justify-content: flex-end; align-items: flex-start;
         }
         .t-star { font-size: 3vw; margin-left: 10px; color: var(--ink); animation: spin 4s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* 跑马灯修复 */
         .marquee-container {
             position: absolute; bottom: 5vh; left: 0; width: 100%;
             border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
@@ -115,79 +105,68 @@
         }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* 占位符 (控制滚动时长) */
         .spacer { height: 100vh; } 
 
-        /* --- 3. 摄影区 (Z-5) --- */
+        /* --- 3. 摄影区 (横向滚动核心) --- */
         .h-section { 
-            height: 400vh; 
-            position: relative; 
-            z-index: 5; 
+            height: 600vh; /* 加高高度，因为有9张图需要滚 */
+            position: relative; z-index: 5; 
             background-color: var(--dark); 
-            --dynamic-color: #ffffff; /* 动态变量 */
+            --dynamic-color: #ffffff; /* 变色变量 */
         }
         .h-sticky { 
             position: sticky; top: 0; height: 100vh; 
             overflow: hidden; 
-            display: flex; 
-            flex-direction: column; /* 关键修改：垂直排列，防止遮挡 */
-            justify-content: center; 
-            padding-left: 5vw;
+            display: flex; flex-direction: column; justify-content: center; /* 垂直居中 */
         }
         
-        .h-header {
-            margin-bottom: 5vh; /* 给标题和图片之间留出空隙 */
-            z-index: 2;
-        }
-        .h-title { 
-            font-family: 'Unbounded', sans-serif; font-weight: 900;
-            font-size: 3rem; line-height: 1.1;
-            color: var(--dynamic-color); 
-            transition: color 0.1s linear;
-        }
-        .h-subtitle {
-            font-family: 'Space Grotesk'; font-size: 1rem; letter-spacing: 0.2em;
-            color: var(--dynamic-color); opacity: 0.8; margin-bottom: 10px;
+        /* 摄影区的标题使用动态颜色 */
+        .h-section .sec-sub, .h-section .sec-title {
+            color: var(--dynamic-color); transition: color 0.1s linear;
         }
 
         .photo-track { 
-            display: flex; gap: 6vw; 
+            display: flex; gap: 5vw; 
             will-change: transform; 
-            padding-right: 10vw; /* 右侧留白 */
+            padding-left: 5vw; /* 初始位置 */
+            width: max-content; /* 宽度由内容决定 */
         }
         
         .photo-wrapper {
             flex-shrink: 0; display: flex; flex-direction: column; gap: 15px;
         }
         .photo-card { 
-            width: 40vw; height: 55vh; /* 调整尺寸适配屏幕 */
+            width: 35vw; height: 50vh; 
             border: 1px solid rgba(255,255,255,0.2);
-            transition: 0.3s; overflow: hidden;
-            position: relative;
+            transition: 0.3s; overflow: hidden; position: relative;
         }
         .photo-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .photo-card:hover img { transform: scale(1.1); }
         
         .photo-meta {
             display: flex; justify-content: space-between; align-items: center;
-            border-top: 1px solid var(--dynamic-color); /* 线条变色 */
+            border-top: 1px solid var(--dynamic-color);
             padding-top: 15px;
-            color: var(--dynamic-color); /* 文字变色 */
+            color: var(--dynamic-color); 
             font-family: 'Space Grotesk'; font-size: 0.85rem; font-weight: bold;
         }
 
-        /* --- 4. 扇形区 --- */
+        /* --- 4. 扇形/通用展示区 --- */
         .fan-section { 
             height: 250vh; background: var(--bg); position: relative; z-index: 6; 
         }
-        .fan-sticky { position: sticky; top: 0; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        /* 普通区域标题颜色固定为深蓝 */
+        .fan-section .sec-sub, .fan-section .sec-title { color: var(--ink); }
         
-        .ppt-title { font-family: 'Unbounded'; font-size: 3rem; margin-bottom: 5vh; color: var(--ink); z-index: 10; }
+        .fan-sticky { 
+            position: sticky; top: 0; height: 100vh; 
+            display: flex; justify-content: center; align-items: center; /* 内容居中 */
+        }
+        
         .ppt-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: flex-end; }
 
-        /* 文件夹样式 */
         .folder-box {
-            width: 80vw; height: 70vh;
+            width: 80vw; height: 60vh; margin-top: 10vh;
             border: 3px solid var(--ink); background: #fff; position: relative;
             box-shadow: 15px 15px 0px var(--ink); display: flex; justify-content: center; align-items: center;
         }
@@ -216,20 +195,18 @@
     <div class="cursor-star" id="cursor"></div>
 
     <div class="fixed-layer" id="intro">
-        <div class="avatar-frame">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500" alt="Profile">
-        </div>
+        <div class="avatar-frame"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500"></div>
         <h2 class="intro-name">Chen Yufang</h2>
         <p class="intro-role">Visual Designer / 2026</p>
         <div class="intro-contact">chenyufang2026@email.com</div>
     </div>
-    <div class="spacer"></div> <div class="fixed-layer" id="hero">
+    <div class="spacer"></div> 
+
+    <div class="fixed-layer" id="hero">
         <div class="hero-title-group">
             <div class="t-line">PORT</div>
             <div class="t-line t-indent t-stroke">FOLIO</div>
-            <div class="t-year">
-                2026 <div class="t-star">*</div>
-            </div>
+            <div class="t-year">2026 <div class="t-star">*</div></div>
         </div>
         <div class="marquee-container">
             <div class="marquee-content">
@@ -238,29 +215,51 @@
             </div>
         </div>
     </div>
-    <div class="spacer"></div> <section class="h-section" id="hSec">
+    <div class="spacer"></div>
+
+    <section class="h-section" id="hSec">
         <div class="h-sticky">
-            <div class="h-header">
-                <div class="h-subtitle">COLLECTION 01</div>
-                <div class="h-title">SELECTED<br>SHOTS</div>
+            <div class="section-header">
+                <div class="sec-sub">Collection 01</div>
+                <div class="sec-title">Selected<br>Works</div>
             </div>
             
             <div class="photo-track" id="hTrack">
                 <div class="photo-wrapper">
                     <div class="photo-card"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200"></div>
-                    <div class="photo-meta"><span>NEON NIGHTS</span><span>01</span></div>
+                    <div class="photo-meta"><span>NEON DREAMS</span><span>01</span></div>
                 </div>
                 <div class="photo-wrapper">
                     <div class="photo-card"><img src="https://images.unsplash.com/photo-1511871893393-82e9c16b81e3?w=1200"></div>
-                    <div class="photo-meta"><span>URBAN GEOMETRY</span><span>02</span></div>
+                    <div class="photo-meta"><span>STRUCTURE</span><span>02</span></div>
                 </div>
                 <div class="photo-wrapper">
                     <div class="photo-card"><img src="https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=1200"></div>
-                    <div class="photo-meta"><span>FILM GRAIN</span><span>03</span></div>
+                    <div class="photo-meta"><span>FILM TEXTURE</span><span>03</span></div>
                 </div>
                 <div class="photo-wrapper">
                     <div class="photo-card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1200"></div>
-                    <div class="photo-meta"><span>NATURE STUDY</span><span>04</span></div>
+                    <div class="photo-meta"><span>WILDERNESS</span><span>04</span></div>
+                </div>
+                <div class="photo-wrapper">
+                    <div class="photo-card"><img src="https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?w=1200"></div>
+                    <div class="photo-meta"><span>PORTRAIT</span><span>05</span></div>
+                </div>
+                <div class="photo-wrapper">
+                    <div class="photo-card"><img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200"></div>
+                    <div class="photo-meta"><span>OFFICE LIFE</span><span>06</span></div>
+                </div>
+                <div class="photo-wrapper">
+                    <div class="photo-card"><img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1200"></div>
+                    <div class="photo-meta"><span>LIQUID ART</span><span>07</span></div>
+                </div>
+                <div class="photo-wrapper">
+                    <div class="photo-card"><img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=1200"></div>
+                    <div class="photo-meta"><span>MOUNTAIN</span><span>08</span></div>
+                </div>
+                <div class="photo-wrapper">
+                    <div class="photo-card"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1200"></div>
+                    <div class="photo-meta"><span>FINALE</span><span>09</span></div>
                 </div>
             </div>
         </div>
@@ -268,7 +267,11 @@
 
     <section class="fan-section" id="pptSec">
         <div class="fan-sticky">
-            <div class="ppt-title">KEYNOTE</div>
+            <div class="section-header">
+                <div class="sec-sub">Collection 02</div>
+                <div class="sec-title">Keynote<br>Design</div>
+            </div>
+
             <div class="ppt-container">
                 <div class="fan-card ppt-card" style="z-index: 5;"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1000"><div class="label">STRATEGY DECK</div></div>
                 <div class="fan-card ppt-card" style="z-index: 4;"><img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=1000"><div class="label">BUSINESS PLAN</div></div>
@@ -279,9 +282,13 @@
 
     <section class="fan-section" id="videoSec">
         <div class="fan-sticky">
+            <div class="section-header">
+                <div class="sec-sub">Collection 03</div>
+                <div class="sec-title">Video<br>Editing</div>
+            </div>
+
             <div class="folder-box">
                 <div class="folder-tab">REEL_2026.MOV</div>
-                <h2 style="font-family: 'Unbounded'; font-size: 3rem;">EDITING</h2>
                 <div class="fan-card v-card" style="z-index:3"><img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1000"></div>
                 <div class="fan-card v-card" style="z-index:2"><img src="https://images.unsplash.com/photo-1492691523567-61322558ddfd?w=1000"></div>
             </div>
@@ -313,49 +320,39 @@
             const scrollY = window.pageYOffset;
             const winH = window.innerHeight;
 
-            // 1. INTRO 逻辑
+            // 1. Intro & Hero 逻辑 (保持不变)
             if (scrollY <= winH) {
                 const prog = scrollY / winH; 
-                // 淡出 + 稍微缩小
                 intro.style.opacity = Math.max(1 - prog * 1.5, 0); 
                 intro.style.transform = `scale(${1 - prog * 0.1})`;
-            } else {
-                intro.style.opacity = 0;
-            }
+            } else { intro.style.opacity = 0; }
 
-            // 2. HERO 逻辑
-            // Hero 实际上一直都在那里，只是被 Intro 盖住了。
-            // 当 Intro 淡出时 Hero 自然显现。
-            // 当滚动超过 100vh (Intro结束) 后，Hero 开始动效
             if (scrollY > winH && scrollY <= winH * 2) {
                 const prog = (scrollY - winH) / winH;
                 hero.style.opacity = Math.max(1 - prog, 0);
                 hero.style.transform = `scale(${1 - prog * 0.1})`;
-            } else if (scrollY > winH * 2) {
-                hero.style.opacity = 0;
-            } else {
-                hero.style.opacity = 1;
-                hero.style.transform = 'scale(1)';
-            }
+            } else if (scrollY > winH * 2) { hero.style.opacity = 0; }
+            else { hero.style.opacity = 1; hero.style.transform = 'scale(1)'; }
 
-            // 3. 摄影区逻辑
+            // 3. 摄影区逻辑 (升级版算法)
             const hRect = hSec.getBoundingClientRect();
-            // 计算视口在 hSec 内部的进度 (考虑前面有 200vh 的 spacer)
             let hProg = -hRect.top / (hSec.offsetHeight - winH);
             hProg = Math.min(Math.max(hProg, 0), 1);
 
-            // A. 横向滚动
-            hTrack.style.transform = `translateX(-${hProg * 50}%)`;
+            // 核心修复：计算能滚动的最大物理距离
+            const winW = window.innerWidth;
+            const trackWidth = hTrack.scrollWidth;
+            // 滚动距离 = 轨道总宽 - 视口宽度 + 也就是最右边留点余量
+            const maxTranslate = trackWidth - winW + (winW * 0.1); 
+            
+            // 应用像素级滚动，而不是百分比
+            hTrack.style.transform = `translateX(-${hProg * maxTranslate}px)`;
 
-            // B. 变色逻辑
-            let colorProg = (hProg - 0.1) * 2; // 调整参数让变色更迅速
+            // 变色逻辑
+            let colorProg = (hProg - 0.1) * 2; 
             colorProg = Math.min(Math.max(colorProg, 0), 1);
-
-            // 背景：深蓝 -> 米白
             const bgColor = interpolateColor('rgb(13, 38, 82)', 'rgb(244, 241, 234)', colorProg);
             hSec.style.backgroundColor = bgColor;
-
-            // 文字/线条：白 -> 蓝
             const textColor = interpolateColor('rgb(255, 255, 255)', 'rgb(26, 77, 163)', colorProg);
             hSec.style.setProperty('--dynamic-color', textColor);
 
